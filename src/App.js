@@ -25,6 +25,7 @@ function App() {
             <p>BOTTOM-WIDTH</p>
             <input type="text" onChange={(e)=>{setBottomWidth(e.target.value)}} value={bottomWidth}/>
           </div>
+          <div className='button'>Roof</div>
         </div>
         <div className='right'>
           <div className='draw-area'>
