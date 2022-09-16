@@ -11,7 +11,6 @@
 
     .main {
 
-        // display: flex;
         .left {
             background-color: rgba(255, 255, 255, 0.874);
             min-width: 300px;
@@ -25,37 +24,42 @@
             box-sizing: border-box;
 
             .input-item {
-                display: flex;
-                justify-content: space-between;
                 padding: 10px 0px 10px 0px;
+
                 p {
                     margin: 0px;
                 }
-                input {
-                    max-width: 25px;
+                .flex{
+                    justify-content: space-between;
+                    display: flex;
+                    input {
+                        max-width: 40px;
+                    }
                 }
             }
 
             .button {
-                background-color: aquamarine;
+                background-color: rgb(255, 198, 55);
                 border-radius: 10px;
                 padding: 10px;
                 text-align: center;
                 margin-top: 200px;
+                cursor: pointer;
+                user-select: none;
+            }
+
+            .button:hover {
+                background-color: rgb(255, 217, 121);
             }
         }
 
         .right {
             .draw-area {
                 position: relative;
-                height: 400px;
-                width: 800px;
-                border: black solid 1px;
+                // border: black solid 1px;
                 background-color: rgb(255, 255, 255);
                 margin: auto;
-                margin-top: calc(50vh - 240px);
-                padding: 40px 80px 40px 80px;
-                // box-sizing: border-box;
+                margin-top: calc(50vh - 200px);
 
                 .grid-background {
                     position: absolute;
