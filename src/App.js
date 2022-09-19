@@ -9,21 +9,21 @@ var ColumnTopPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 var ColumnBottomPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var ColumnHeight = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var color = [
-  'rgba(103, 10, 89, 0.295)',
-  'rgba(103, 10, 10, 0.295)',
-  'rgba(103, 58, 10, 0.295)',
-  'rgba(100, 103, 10, 0.295)',
-  'rgba(47, 103, 10, 0.295)',
-  'rgba(10, 103, 63, 0.295)',
-  'rgba(10, 83, 103, 0.295)',
-  'rgba(10, 47, 103, 0.295)',
-  'rgba(12, 10, 103, 0.295)',
-  'rgba(53, 10, 103, 0.295)',
-  'rgba(93, 56, 135, 0.295)',
-  'rgba(56, 135, 60, 0.295)',
-  'rgba(135, 128, 56, 0.295)',
-  'rgba(135, 56, 56, 0.295)',
-  'rgba(61, 56, 135, 0.295)'
+  'rgb(103, 10, 89)',
+  'rgb(103, 10, 10)',
+  'rgb103, 58, 10)',
+  'rgb(100, 103, 10)',
+  'rgb(47, 103, 10)',
+  'rgb(10, 103, 63)',
+  'rgb(10, 83, 103)',
+  'rgb(10, 47, 103)',
+  'rgb(12, 10, 103)',
+  'rgb(53, 10, 103)',
+  'rgb(93, 56, 135)',
+  'rgb(56, 135, 60)',
+  'rgb(135, 128, 56)',
+  'rgb(135, 56, 56)',
+  'rgb(61, 56, 135)'
 ]
 
 const N = 1e5;
@@ -155,7 +155,11 @@ function App() {
   }
   return (
     <div className="App">
-      <div className='header'></div>
+      <div className='header'>
+        <p>Marica H.</p>
+        <p>ROOFING TOOL</p>
+        <p>L-Opt Problem</p>
+      </div>
       <div className='main' id='number'>
         <div className='left'>
           <div className='input-item'>
