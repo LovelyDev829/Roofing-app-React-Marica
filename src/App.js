@@ -1,13 +1,15 @@
 import './App.scss';
 import GridLines from "react-gridlines";
 import { useEffect, useState } from 'react';
+import { ReactComponent as RightWard } from "./assets/rightward.svg";
 
 const cellWidth = 44, cellHeight = 14;
+const unitWidth = 1.1, unitHeight = 0.35;
 const maxHeightNum = 30;
 const maxWidthNum = 20;
-var ColumnTopPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-var ColumnBottomPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-var ColumnHeight = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var columnTopPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var columnBottomPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var columnHeight = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var color = [
   'rgb(103, 10, 89)',
   'rgb(103, 10, 10)',
@@ -42,6 +44,9 @@ function App() {
   const [polygon, setPolygon] = useState([])
   const [displayFlag, setDisplayFlag] = useState(false)
   const [polyNumber] = useState(4)
+  const [leftBarFlag, setLeftBarFlag] = useState(true)
+  const [elementName, SetElementName] = useState('')
+  const [elementNameBack, SetElementNameBack] = useState('')
 
   useEffect(() => {
     setPolygon([
@@ -64,7 +69,7 @@ function App() {
     ])
   }, [height, bottomWidth, topWidth])
 
-  function prepare() {
+  function prepareOpitization() {
     for (let i = 0; i < N; i++) {
       sol.push(new Array(15))
       dp.push(N)
@@ -102,17 +107,17 @@ function App() {
     }
   }
 
-  function calc(x) {
-    let h = Math.ceil(x)
-    console.log(dp[h], sol[h])
-    // setSolution(sol[h])
-  }
+  // function calcOpitization(x) {
+  //   let h = Math.ceil(x)
+  //   console.log(dp[h], sol[h])
+  //   // setSolution(sol[h])
+  // }
 
   function calcCrossPointY(p1, p2, px) {
     return (p1.y - p2.y) * (px - p1.x) / (p1.x - p2.x) + p1.y
   }
   function displayCalc() {
-    prepare()
+    prepareOpitization()
     for (let i = 0; i < maxWidthNum; i++) {
       let px1 = i * 5, px2 = (i + 1) * 5
       let tempy11 = -1, tempy12 = -1, tempy21 = -1, tempy22 = -1;
@@ -136,22 +141,15 @@ function App() {
       }
       let minn = Math.min(tempy11, tempy12, tempy21, tempy22)
       let maxx = Math.max(tempy11, tempy12, tempy21, tempy22)
-      ColumnTopPoint[i] = minn
-      ColumnBottomPoint[i] = maxx
-      ColumnHeight[i] = maxx - minn
+      columnTopPoint[i] = minn
+      columnBottomPoint[i] = maxx
+      columnHeight[i] = maxx - minn
       if (minn === -1) {
-        ColumnTopPoint[i] = maxx
-        ColumnHeight[i] = 0
+        columnTopPoint[i] = maxx
+        columnHeight[i] = 0
       }
-      // console.log(10.5*ColumnHeight[i])
-      calc(10.5 * ColumnHeight[i])
-      // calc(120)
-      // console.log(tempy11, tempy12, tempy21, tempy22)
-      // console.log(ColumnTopPoint[i], ColumnBottomPoint[i], ColumnHeight[i])
+      // calcOpitization(10.5 * columnHeight[i])
     }
-    // console.log(ColumnTopPoint)
-    // console.log(ColumnBottomPoint)
-    // console.log(ColumnHeight)
   }
   return (
     <div className="App">
@@ -161,13 +159,16 @@ function App() {
         <p>L-Opt Problem</p>
       </div>
       <div className='main' id='number'>
-        <div className='left'>
+        <div className={leftBarFlag ? 'slide-right left' : 'left'}>
+          <div className='left-bar-button' onClick={() => { setLeftBarFlag(!leftBarFlag) }}>
+            <RightWard style={leftBarFlag ? { transform: 'rotate(180deg)' } : {}} />
+          </div>
           <div className='input-item'>
             <p>HELGHT</p>
             <div className='flex'>
               <input type="text" onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value) }} value={height} />
               <p>X   0.35 =</p>
-              <input type="text" onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value / 0.35) }} value={height * 0.35} />
+              <input type="text" onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value / unitHeight) }} value={height * unitHeight} />
               <p>(M)</p>
             </div>
           </div>
@@ -176,7 +177,7 @@ function App() {
             <div className='flex'>
               <input type="text" onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value) }} value={topWidth} />
               <p>X 1.1 =</p>
-              <input type="text" onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value / 1.1) }} value={topWidth * 1.1} />
+              <input type="text" onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value / unitWidth) }} value={topWidth * unitWidth} />
               <p>(M)</p>
             </div>
           </div>
@@ -185,17 +186,18 @@ function App() {
             <div className='flex'>
               <input type="text" onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value) }} value={bottomWidth} />
               <p>X 1.1 =</p>
-              <input type="text" onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value / 1.1) }} value={bottomWidth * 1.1} />
+              <input type="text" onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value / unitWidth) }} value={bottomWidth * unitWidth} />
               <p>(M)</p>
             </div>
           </div>
-          <div className='button' onClick={() => { displayCalc(); setDisplayFlag(true) }}>Roof</div>
+          <div className='button' onClick={() => { displayCalc(); setDisplayFlag(true) }}>R O O F</div>
         </div>
-        <div className='right'>
+        <div className='middle'>
           <div className='draw-area' style={{
             width: `${cellWidth * maxWidthNum}px`, height: `${cellHeight * maxHeightNum}px`,
             // padding: `${cellHeight}px ${cellWidth}px ${cellHeight}px ${cellWidth}px`
           }}>
+            <div className={elementName==='' ? '':'element-name'} style={{backgroundColor : elementNameBack}}>{elementName}</div>
             <GridLines
               className="grid-background"
               cellHeight={cellHeight}
@@ -211,24 +213,31 @@ function App() {
             )`}}></div>
             <div className='polygon-flag-field'>
               {
-                ColumnHeight?.map((iItem, iIndex) => {
+                columnHeight?.map((iItem, iIndex) => {
                   let height = 0;
-                  console.log(iIndex, sol[Math.ceil(10.5 * iItem)])
+                  // console.log(iIndex, sol[Math.ceil(10.5 * iItem)])
                   return sol[Math.ceil(10.5 * iItem)]?.map((jItem, jIndex) => {
-                    let tempHeight = 100 * block[jIndex] / 1050;
-                    return [...Array(jItem)].map((kItem, kIndex)=>{
+                    let tempHeight = block[jIndex] / (maxHeightNum * unitHeight);          /////////////////////////////
+                    return [...Array(jItem)].map((kItem, kIndex) => {
                       height += tempHeight
-                      console.log(iIndex, tempHeight)
-                      console.log("height", height)
+                      // console.log(iIndex, tempHeight)
+                      // console.log("height", height)
                       return (
                         <div className={displayFlag ? 'polygon-flag-item' : 'hidden'} style={{
-                          backgroundColor : `${color[jIndex]}`,
+                          backgroundColor: `${color[jIndex]}`,
                           clipPath: `polygon(
-                          ${(iIndex + 0) * 5}% ${100 - (height)}% ,
-                          ${(iIndex + 1) * 5}% ${100 - (height)}% ,
-                          ${(iIndex + 1) * 5}% ${100 - (height-tempHeight)}% ,
-                          ${(iIndex + 0) * 5}% ${100 - (height-tempHeight)}% 
-                        )`}} key={"field-item" + iIndex + "-" + jIndex + "-" + kIndex} ></div>
+                            ${(iIndex + 0) * 5}% ${100 - (height)}% ,
+                            ${(iIndex + 1) * 5}% ${100 - (height)}% ,
+                            ${(iIndex + 1) * 5}% ${100 - (height - tempHeight)}% ,
+                            ${(iIndex + 0) * 5}% ${100 - (height - tempHeight)}% 
+                          )`}} key={"field-item" + iIndex + "-" + jIndex + "-" + kIndex}
+                          onClick={()=>{console.log("clicked..")}}
+                          onMouseOver={()=>{
+                            SetElementName(`M${jIndex+1}`)
+                            SetElementNameBack(color[jIndex])
+                          }}
+                          onMouseLeave={()=>{SetElementName('')}}
+                          ></div>
                       )
                     })
                   })
