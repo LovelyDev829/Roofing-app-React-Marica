@@ -273,7 +273,7 @@ function App() {
                 <th>Column</th>
                 {
                   [...Array(15)].map((item, index) => {
-                    return <th key={"table-header"+index} style={{padding: '0px 10px 0px 10px'}}>M{index + 1}</th>
+                    return <th key={"table-header"+index}>M{index + 1}</th>
                   })
                 }
               </tr>
