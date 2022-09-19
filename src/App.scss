@@ -45,12 +45,12 @@
 
         .left {
             background-color: rgba(245, 245, 245, 0.387);
-            // opacity: 0.7;
             min-width: 300px;
             height: 100vh;
             position: absolute;
             top: 0px;
-            left: -308px;
+            // left: -308px;
+            right: 100vw;
             z-index: 9;
             box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.15);
             padding: 200px 50px 50px 50px;
@@ -187,7 +187,7 @@
             height: 100vh;
             position: absolute;
             top: 0px;
-            right: -890px;
+            left: 100vw;
             z-index: 9;
             box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.15);
             padding: 150px 50px 50px 50px;
