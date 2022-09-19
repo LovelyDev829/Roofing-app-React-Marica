@@ -13,7 +13,7 @@ var columnHeight = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var color = [
   'rgb(103, 10, 89)',
   'rgb(103, 10, 10)',
-  'rgb103, 58, 10)',
+  'rgb(53, 50, 53)',
   'rgb(100, 103, 10)',
   'rgb(47, 103, 10)',
   'rgb(10, 103, 63)',
@@ -45,8 +45,11 @@ function App() {
   const [displayFlag, setDisplayFlag] = useState(false)
   const [polyNumber] = useState(4)
   const [leftBarFlag, setLeftBarFlag] = useState(true)
+  const [rightBarFlag, setRightBarFlag] = useState(false)
   const [elementName, SetElementName] = useState('')
   const [elementNameBack, SetElementNameBack] = useState('')
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
+  var total = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
   useEffect(() => {
     setPolygon([
@@ -71,7 +74,7 @@ function App() {
 
   function prepareOpitization() {
     for (let i = 0; i < N; i++) {
-      sol.push(new Array(15))
+      sol.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
       dp.push(N)
       cnt.push(N)
     }
@@ -153,13 +156,18 @@ function App() {
   }
   return (
     <div className="App">
-      <div className='header'>
+      <div className={elementName === '' ? 'hidden' : 'element-name'} style={{
+        backgroundColor: elementNameBack,
+        top: globalCoords.y - 80,
+        left: globalCoords.x + 20,
+      }}>{elementName}</div>
+      <div className='header' onClick={()=>{setRightBarFlag(false)}} >
         <p>Marica H.</p>
         <p>ROOFING TOOL</p>
         <p>L-Opt Problem</p>
       </div>
       <div className='main' id='number'>
-        <div className={leftBarFlag ? 'slide-right left' : 'left'}>
+        <div className={leftBarFlag ? 'slide-right left' : 'left'} onClick={()=>{setRightBarFlag(false)}} >
           <div className='left-bar-button' onClick={() => { setLeftBarFlag(!leftBarFlag) }}>
             <RightWard style={leftBarFlag ? { transform: 'rotate(180deg)' } : {}} />
           </div>
@@ -192,12 +200,10 @@ function App() {
           </div>
           <div className='button' onClick={() => { displayCalc(); setDisplayFlag(true) }}>R O O F</div>
         </div>
-        <div className='middle'>
+        <div className='middle' onClick={()=>{if(rightBarFlag) setRightBarFlag(false)}}>
           <div className='draw-area' style={{
             width: `${cellWidth * maxWidthNum}px`, height: `${cellHeight * maxHeightNum}px`,
-            // padding: `${cellHeight}px ${cellWidth}px ${cellHeight}px ${cellWidth}px`
           }}>
-            <div className={elementName==='' ? '':'element-name'} style={{backgroundColor : elementNameBack}}>{elementName}</div>
             <GridLines
               className="grid-background"
               cellHeight={cellHeight}
@@ -215,29 +221,32 @@ function App() {
               {
                 columnHeight?.map((iItem, iIndex) => {
                   let height = 0;
-                  // console.log(iIndex, sol[Math.ceil(10.5 * iItem)])
-                  return sol[Math.ceil(10.5 * iItem)]?.map((jItem, jIndex) => {
+                  return sol[Math.ceil(maxHeightNum * unitHeight * iItem)]?.map((jItem, jIndex) => {
                     let tempHeight = block[jIndex] / (maxHeightNum * unitHeight);          /////////////////////////////
                     return [...Array(jItem)].map((kItem, kIndex) => {
                       height += tempHeight
-                      // console.log(iIndex, tempHeight)
-                      // console.log("height", height)
                       return (
                         <div className={displayFlag ? 'polygon-flag-item' : 'hidden'} style={{
                           backgroundColor: `${color[jIndex]}`,
                           clipPath: `polygon(
-                            ${(iIndex + 0) * 5}% ${100 - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${100 - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${100 - (height - tempHeight)}% ,
-                            ${(iIndex + 0) * 5}% ${100 - (height - tempHeight)}% 
+                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
+                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
+                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
+                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% 
                           )`}} key={"field-item" + iIndex + "-" + jIndex + "-" + kIndex}
-                          onClick={()=>{console.log("clicked..")}}
-                          onMouseOver={()=>{
-                            SetElementName(`M${jIndex+1}`)
+                          onClick={() => { setRightBarFlag(true) }}
+                          onMouseOver={() => {
+                            SetElementName(`M${jIndex + 1}`)
                             SetElementNameBack(color[jIndex])
                           }}
-                          onMouseLeave={()=>{SetElementName('')}}
-                          ></div>
+                          onMouseLeave={() => { SetElementName('') }}
+                          onMouseMove={(event) => {
+                            setGlobalCoords({
+                              x: event.screenX,
+                              y: event.screenY,
+                            });
+                          }}
+                        ></div>
                       )
                     })
                   })
@@ -245,6 +254,46 @@ function App() {
               }
             </div>
           </div>
+        </div>
+        <div className={rightBarFlag ? 'slide-left right' : 'right'}>
+          <div className='right-bar-button' onClick={() => { setRightBarFlag(!rightBarFlag) }}>
+            <RightWard style={rightBarFlag ? {} : { transform: 'rotate(180deg)' }} />
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <th>Column</th>
+                {
+                  [...Array(15)].map((item, index) => {
+                    return <th key={"table-header"+index} style={{padding: '0px 10px 0px 10px'}}>M{index + 1}</th>
+                  })
+                }
+              </tr>
+              {
+                [...Array(21)].map((iItem, iIndex) => {
+                  return <tr key={"table-item"+iIndex}>
+                    <th>{iIndex===20 ? 'Total' : iIndex+1}</th>
+                    {
+                      sol[Math.ceil(10.5 * columnHeight[iIndex])]?.map((jItem, jIndex) => {
+                        // if(sol[Math.ceil(10.5 * columnHeight[iIndex])][jIndex]){
+                        //   return <th key={"table-item"+iIndex+'-'+jIndex}>{sol[Math.ceil(10.5 * columnHeight[iIndex])][jIndex]}</th>
+                        // }
+                        // return <></>
+                        total[jIndex] +=jItem
+                        return <th key={"table-item"+iIndex+'-'+jIndex}>{jItem}</th>
+                      })
+
+                    }
+                    {
+                      iIndex===20 && total?.map((item, index)=>{
+                        return <th key={"table-item-total"+index}>{item}</th>
+                      })
+                    }
+                  </tr>
+                })
+              }
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

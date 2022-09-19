@@ -1,4 +1,24 @@
 .App {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    .element-name {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 60px;
+        height: 40px;
+        z-index: 15;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        color: white;
+        font-weight: 500;
+        // border-bottom-left-radius: 10px;
+    }
     .header {
         height: 80px;
         width: 100%;
@@ -21,6 +41,7 @@
     }
 
     .main {
+        height: 100vh;
 
         .left {
             background-color: rgba(245, 245, 245, 0.387);
@@ -96,12 +117,13 @@
         }
 
         .middle {
+            height: 100vh;
+            padding-top: calc(50vh - 200px);
             .draw-area {
                 position: relative;
                 // border: black solid 1px;
                 background-color: rgb(255, 255, 255);
                 margin: auto;
-                margin-top: calc(50vh - 200px);
 
                 .element-name {
                     position: absolute;
@@ -156,6 +178,48 @@
                     }
                 }
             }
+        }
+
+        .right {
+            background-color: rgba(245, 245, 245, 0.387);
+            // opacity: 0.7;
+            min-width: 911px;
+            height: 100vh;
+            position: absolute;
+            top: 0px;
+            right: -913px;
+            z-index: 9;
+            box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.15);
+            padding: 150px 50px 50px 50px;
+            box-sizing: border-box;
+            animation-duration: 0.5s;
+            transition-duration: 0.5s;
+
+            .right-bar-button{
+                position: absolute;
+                top: 100px;
+                left: -50px;
+                height: 30px;
+                width: 30px;
+                background-color: rgb(245, 245, 245);
+                box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.15);
+                border-radius: 5px;
+                cursor: pointer;
+                svg{
+                    display: block;
+                    margin: auto;
+                    height: 100%;
+                }
+            }
+            .right-bar-button:hover{
+                background-color: white;
+            }
+        }
+        .right:hover{
+            background-color: rgb(245, 245, 245);
+        }
+        .slide-left{
+            transform : translate(-913px, 0);
         }
     }
 
