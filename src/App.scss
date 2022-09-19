@@ -19,6 +19,7 @@
         color: white;
         font-weight: 500;
         // border-bottom-left-radius: 10px;
+        border: 1px solid white;
     }
 
     .header {
@@ -185,7 +186,8 @@
                     }
 
                     .polygon-flag-item:hover {
-                        background-color: rgb(150, 150, 150) !important;
+                        // background-color: rgb(150, 150, 150) !important;
+                        opacity: 1;
                     }
                 }
             }

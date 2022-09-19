@@ -41,6 +41,7 @@ function App() {
   const [height, setHeight] = useState(25)
   const [bottomWidth, setBottomWidth] = useState(16)
   const [topWidth, setTopWidth] = useState(10)
+  const [skew, setSkew] = useState(0)
   const [polygon, setPolygon] = useState([])
   const [displayFlag, setDisplayFlag] = useState(false)
   const [polyNumber] = useState(4)
@@ -54,23 +55,23 @@ function App() {
   useEffect(() => {
     setPolygon([
       {
-        x: 50 - topWidth / maxWidthNum * 50 - Math.min(50 - topWidth / maxWidthNum * 50, 50 - bottomWidth / maxWidthNum * 50),
+        x: 50 - topWidth / maxWidthNum * 50 - (2.5*skew) - Math.min(50 - topWidth / maxWidthNum * 50 - (2.5*skew), 50 - bottomWidth / maxWidthNum * 50 + (2.5*skew)),
         y: 100 - height / maxHeightNum * 100
       },
       {
-        x: 50 + topWidth / maxWidthNum * 50 - Math.min(50 - topWidth / maxWidthNum * 50, 50 - bottomWidth / maxWidthNum * 50),
+        x: 50 + topWidth / maxWidthNum * 50 - (2.5*skew) - Math.min(50 - topWidth / maxWidthNum * 50 - (2.5*skew), 50 - bottomWidth / maxWidthNum * 50 + (2.5*skew)),
         y: 100 - height / maxHeightNum * 100
       },
       {
-        x: 50 + bottomWidth / maxWidthNum * 50 - Math.min(50 - topWidth / maxWidthNum * 50, 50 - bottomWidth / maxWidthNum * 50),
+        x: 50 + bottomWidth / maxWidthNum * 50 + (2.5*skew) - Math.min(50 - topWidth / maxWidthNum * 50 - (2.5*skew), 50 - bottomWidth / maxWidthNum * 50 + (2.5*skew)),
         y: 100
       },
       {
-        x: 50 - bottomWidth / maxWidthNum * 50 - Math.min(50 - topWidth / maxWidthNum * 50, 50 - bottomWidth / maxWidthNum * 50),
+        x: 50 - bottomWidth / maxWidthNum * 50 + (2.5*skew)- Math.min(50 - topWidth / maxWidthNum * 50 - (2.5*skew), 50 - bottomWidth / maxWidthNum * 50 + (2.5*skew)),
         y: 100
       }
     ])
-  }, [height, bottomWidth, topWidth])
+  }, [height, bottomWidth, topWidth, skew])
 
   function prepareOpitization() {
     for (let i = 0; i < N; i++) {
@@ -124,6 +125,7 @@ function App() {
     for (let i = 0; i < maxWidthNum; i++) {
       let px1 = i * 5, px2 = (i + 1) * 5, pxt = i * 5 + 0.0001
       let tempy11 = -1, tempy12 = -1, tempy21 = -1, tempy22 = -1, tempyt1 = -1, tempyt2 = -1;
+      let tempyp1 = -1, tempyp2 = -1;
       let flag1 = false, flag2 = false, flagt = false
       for (let pp = 0; pp < polyNumber; pp++) {
         let p1 = polygon[pp], p2
@@ -147,9 +149,15 @@ function App() {
           else tempyt2 = yy
           flagt = true
         }
+        if((px2 >= p1.x && p1.x >= px1) || (px2 <= p1.x && p1.x <= px1)){
+          tempyp1 = p1.y
+        }
+        if((px2 >= p2.x && p2.x >= px1) || (px2 <= p2.x && p2.x <= px1)){
+          tempyp2 = p2.y
+        }
       }
-      let minn = Math.min.apply(null, [tempy11, tempy12, tempy21, tempy22].filter(a => a !== -1 && a))
-      let maxx = Math.max.apply(null, [tempy11, tempy12, tempy21, tempy22].filter(Boolean))
+      let minn = Math.min.apply(null, [tempy11, tempy12, tempy21, tempy22, tempyp1, tempyp2].filter(a => a !== -1 && a))
+      let maxx = Math.max.apply(null, [tempy11, tempy12, tempy21, tempy22, tempyp1, tempyp2].filter(Boolean))
       columnTopPoint[i] = minn
       columnBottomPoint[i] = maxx
       columnHeight[i] = maxx - minn
@@ -203,6 +211,15 @@ function App() {
               <input type="text" onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value) }} value={bottomWidth} />
               <p>X 1.1 =</p>
               <input type="text" onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value / unitWidth) }} value={bottomWidth * unitWidth} />
+              <p>(M)</p>
+            </div>
+          </div>
+          <div className='input-item'>
+            <p>SKEW</p>
+            <div className='flex'>
+              <input type="text" onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value) }} value={skew} />
+              <p>X 1.1 =</p>
+              <input type="text" onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value / unitWidth) }} value={skew * unitWidth} />
               <p>(M)</p>
             </div>
           </div>
@@ -283,10 +300,6 @@ function App() {
                     <th>{iIndex===20 ? 'Total' : iIndex+1}</th>
                     {
                       sol[Math.ceil(10.5 * columnHeight[iIndex])]?.map((jItem, jIndex) => {
-                        // if(sol[Math.ceil(10.5 * columnHeight[iIndex])][jIndex]){
-                        //   return <th key={"table-item"+iIndex+'-'+jIndex}>{sol[Math.ceil(10.5 * columnHeight[iIndex])][jIndex]}</th>
-                        // }
-                        // return <></>
                         total[jIndex] +=jItem
                         return <th key={"table-item"+iIndex+'-'+jIndex}>{jItem}</th>
                       })
