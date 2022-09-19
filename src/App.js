@@ -149,10 +149,10 @@ function App() {
           else tempyt2 = yy
           flagt = true
         }
-        if((px2 >= p1.x && p1.x >= px1) || (px2 <= p1.x && p1.x <= px1)){
+        if((px2 > p1.x && p1.x > px1) || (px2 < p1.x && p1.x < px1)){
           tempyp1 = p1.y
         }
-        if((px2 >= p2.x && p2.x >= px1) || (px2 <= p2.x && p2.x <= px1)){
+        if((px2 > p2.x && p2.x > px1) || (px2 < p2.x && p2.x < px1)){
           tempyp2 = p2.y
         }
       }
@@ -161,13 +161,13 @@ function App() {
       columnTopPoint[i] = minn
       columnBottomPoint[i] = maxx
       columnHeight[i] = maxx - minn
-      console.log(tempy11, tempy12, tempy21, tempy22, maxx, minn)  ///////////
+      // console.log(tempy11, tempy12, tempy21, tempy22, tempyp1, tempyp2, "-", maxx, minn)  ///////////
       if (tempyt1 === -1 && tempyt2 === -1) {
         columnTopPoint[i] = maxx
         columnHeight[i] = 0
       }
       // calcOpitization(10.5 * columnHeight[i])
-      console.log("columnHeight", columnHeight)
+      // console.log("columnHeight", columnHeight)
     }
   }
   return (
