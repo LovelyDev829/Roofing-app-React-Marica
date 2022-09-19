@@ -5,83 +5,34 @@ import { useEffect, useState } from 'react';
 const cellWidth = 44, cellHeight = 14;
 const maxHeightNum = 30;
 const maxWidthNum = 20;
-var fieldFlag = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]
+var ColumnTopPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var ColumnBottomPoint = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var ColumnHeight = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var color = [
+  'rgba(103, 10, 89, 0.295)',
+  'rgba(103, 10, 10, 0.295)',
+  'rgba(103, 58, 10, 0.295)',
+  'rgba(100, 103, 10, 0.295)',
+  'rgba(47, 103, 10, 0.295)',
+  'rgba(10, 103, 63, 0.295)',
+  'rgba(10, 83, 103, 0.295)',
+  'rgba(10, 47, 103, 0.295)',
+  'rgba(12, 10, 103, 0.295)',
+  'rgba(53, 10, 103, 0.295)',
+  'rgba(93, 56, 135, 0.295)',
+  'rgba(56, 135, 60, 0.295)',
+  'rgba(135, 128, 56, 0.295)',
+  'rgba(135, 56, 56, 0.295)',
+  'rgba(61, 56, 135, 0.295)'
 ]
-const INF = 10000;
 
-function onSegment(p, q, r) {
-  // console.log("onSegment")
-  if (q.x <= Math.max(p.x, r.x) &&
-    q.x >= Math.min(p.x, r.x) &&
-    q.y <= Math.max(p.y, r.y) &&
-    q.y >= Math.min(p.y, r.y)) {
-    return true;
-  }
-  return false;
-}
-function orientation(p, q, r) {
-  // console.log("orientation", p , q, r)
-  let val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-  if (val === 0) {
-    return 0; // collinear
-  }
-  return (val > 0) ? 1 : 2; // clock or counterclock wise
-}
-function doIntersect(p1, q1, p2, q2) {
-  // console.log("doIntersect")
-  let o1 = orientation(p1, q1, p2);
-  let o2 = orientation(p1, q1, q2);
-  let o3 = orientation(p2, q2, p1);
-  let o4 = orientation(p2, q2, q1);
-
-  // General case
-  if (o1 !== o2 && o3 !== o4) {
-    return true;
-  }
-  if (o1 === 0 && onSegment(p1, p2, q1)) {
-    return true;
-  }
-  if (o2 === 0 && onSegment(p1, q2, q1)) {
-    return true;
-  }
-  if (o3 === 0 && onSegment(p2, p1, q2)) {
-    return true;
-  }
-  if (o4 === 0 && onSegment(p2, q1, q2)) {
-    return true;
-  }
-  return false;
-}
-function isInside(polygonTemp, n, p) {
-  // console.log("isInside")
-  if (n < 3) {
-    return false;
-  }
-  // let extreme = new Point(INF, p.y);
-  let count = 0, i = 0;
-  do {
-    let next = (i + 1) % n;
-    if (doIntersect(polygonTemp[i], polygonTemp[next], p, { x: INF, y: p.y })) {
-      if (orientation(polygonTemp[i], p, polygonTemp[next]) === 0) {
-        return onSegment(polygonTemp[i], p, polygonTemp[next]);
-      }
-
-      count++;
-    }
-    i = next;
-  } while (i !== 0);
-  return (count % 2 === 1);
-}
+const N = 1e5;
+var block = [47, 82, 117, 152, 187, 222, 257, 292, 327, 362, 397, 432, 467, 502, 537], bn = 15;
+const over = 2;
+var b = new Array(15);
+var dp = [];
+var sol = [];
+var cnt = [];
 
 function App() {
 
@@ -90,6 +41,7 @@ function App() {
   const [topWidth, setTopWidth] = useState(10)
   const [polygon, setPolygon] = useState([])
   const [displayFlag, setDisplayFlag] = useState(false)
+  const [polyNumber] = useState(4)
 
   useEffect(() => {
     setPolygon([
@@ -111,20 +63,95 @@ function App() {
       }
     ])
   }, [height, bottomWidth, topWidth])
-  function displayCalc(){
-    for (let i = 0; i < maxWidthNum; i++) {
-      for (let j = 0; j < maxHeightNum; j++) {
-        if (polygon.length === 0) break;
 
-        let flag1 = isInside(polygon, 4, { x: (i + 0) * 5 + 0.001, y: (j + 0) * 10 / 3 + 0.001})
-        let flag2 = isInside(polygon, 4, { x: (i + 1) * 5 - 0.001, y: (j + 0) * 10 / 3 + 0.001})
-        let flag3 = isInside(polygon, 4, { x: (i + 0) * 5 + 0.001, y: (j + 1) * 10 / 3 - 0.001})
-        let flag4 = isInside(polygon, 4, { x: (i + 1) * 5 - 0.001, y: (j + 1) * 10 / 3 - 0.001})
+  function prepare() {
+    for (let i = 0; i < N; i++) {
+      sol.push(new Array(15))
+      dp.push(N)
+      cnt.push(N)
+    }
 
-        if (flag1 || flag2 || flag3 || flag4) fieldFlag[i][j] = 1
-        else fieldFlag[i][j] = 0
+    for (let i = 0; i < bn; i++) {
+      b[i] = block[i]
+    }
+    let ov = over;
+    dp[0] = 0;
+    for (let i = 1; i < N; i++) {
+      for (let j = 0; j < bn; j++) {
+        if (i <= b[j]) {
+          if (dp[i] > b[j]) {
+            dp[i] = b[j];
+            for (let k = 0; k < bn; k++) {
+              if (k === j) sol[i][k] = 1
+              else sol[i][k] = 0
+            }
+            cnt[i] = 1;
+          }
+        }
+        else {
+          if (dp[i] > dp[i - b[j] + ov] + b[j] || (dp[i] === dp[i - b[j] + ov] + b[j] && cnt[i] > cnt[i - b[j] + ov] + 1)) {
+            dp[i] = dp[i - b[j] + ov] + b[j];
+            cnt[i] = cnt[i - b[j] + ov] + 1;
+            for (let k = 0; k < bn; k++) {
+              if (k === j) sol[i][k] = sol[i - b[j] + ov][k] + 1;
+              else sol[i][k] = sol[i - b[j] + ov][k] + 0;
+            }
+          }
+        }
       }
     }
+  }
+
+  function calc(x) {
+    let h = Math.ceil(x)
+    console.log(dp[h], sol[h])
+    // setSolution(sol[h])
+  }
+
+  function calcCrossPointY(p1, p2, px) {
+    return (p1.y - p2.y) * (px - p1.x) / (p1.x - p2.x) + p1.y
+  }
+  function displayCalc() {
+    prepare()
+    for (let i = 0; i < maxWidthNum; i++) {
+      let px1 = i * 5, px2 = (i + 1) * 5
+      let tempy11 = -1, tempy12 = -1, tempy21 = -1, tempy22 = -1;
+      let flag1 = false, flag2 = false
+      for (let pp = 0; pp < polyNumber; pp++) {
+        let p1 = polygon[pp], p2
+        if (pp === 0) p2 = polygon[polyNumber - 1]
+        else p2 = polygon[pp - 1]
+        if ((p1.x >= px1 && px1 >= p2.x) || (p1.x <= px1 && px1 <= p2.x)) {
+          let yy = calcCrossPointY(p1, p2, px1)
+          if (flag1) tempy11 = yy
+          else tempy12 = yy
+          flag1 = true
+        }
+        if ((p1.x >= px2 && px2 >= p2.x) || (p1.x <= px2 && px2 <= p2.x)) {
+          let yy = calcCrossPointY(p1, p2, px2)
+          if (flag2) tempy21 = yy
+          else tempy22 = yy
+          flag2 = true
+        }
+      }
+      let minn = Math.min(tempy11, tempy12, tempy21, tempy22)
+      let maxx = Math.max(tempy11, tempy12, tempy21, tempy22)
+      ColumnTopPoint[i] = minn
+      ColumnBottomPoint[i] = maxx
+      ColumnHeight[i] = maxx - minn
+      if (minn === -1) {
+        ColumnTopPoint[i] = maxx
+        ColumnHeight[i] = 0
+      }
+      // console.log(10.5*ColumnHeight[i])
+      calc(10.5 * ColumnHeight[i])
+      // calc(120)
+      // console.log(tempy11, tempy12, tempy21, tempy22)
+      // console.log(ColumnTopPoint[i], ColumnBottomPoint[i], ColumnHeight[i])
+    }
+    // console.log(ColumnTopPoint)
+    // console.log(ColumnBottomPoint)
+    // console.log(ColumnHeight)
   }
   return (
     <div className="App">
@@ -135,8 +162,8 @@ function App() {
             <p>HELGHT</p>
             <div className='flex'>
               <input type="text" onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value) }} value={height} />
-              <p>X   35 =</p>
-              <input type="text" onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value / 35) }} value={height * 35} />
+              <p>X   0.35 =</p>
+              <input type="text" onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value / 0.35) }} value={height * 0.35} />
               <p>(M)</p>
             </div>
           </div>
@@ -144,8 +171,8 @@ function App() {
             <p>TOP-WIDTH</p>
             <div className='flex'>
               <input type="text" onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value) }} value={topWidth} />
-              <p>X 110 =</p>
-              <input type="text" onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value / 110) }} value={topWidth * 110} />
+              <p>X 1.1 =</p>
+              <input type="text" onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value / 1.1) }} value={topWidth * 1.1} />
               <p>(M)</p>
             </div>
           </div>
@@ -153,12 +180,12 @@ function App() {
             <p>BOTTOM-WIDTH</p>
             <div className='flex'>
               <input type="text" onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value) }} value={bottomWidth} />
-              <p>X 110 =</p>
-              <input type="text" onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value / 110) }} value={bottomWidth * 110} />
+              <p>X 1.1 =</p>
+              <input type="text" onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value / 1.1) }} value={bottomWidth * 1.1} />
               <p>(M)</p>
             </div>
           </div>
-          <div className='button' onClick={()=>{displayCalc(); setDisplayFlag(true)}}>Roof</div>
+          <div className='button' onClick={() => { displayCalc(); setDisplayFlag(true) }}>Roof</div>
         </div>
         <div className='right'>
           <div className='draw-area' style={{
@@ -180,17 +207,26 @@ function App() {
             )`}}></div>
             <div className='polygon-flag-field'>
               {
-                fieldFlag.map((iItem, iIndex) => {
-                  return iItem.map((jItem, jIndex) => {
-                    return (
-                      <div className={(jItem === 1 && displayFlag) ? 'polygon-flag-item' : 'hidden'} style={{
-                        clipPath: `polygon(
-                          ${(iIndex + 0) * 5}% ${(jIndex + 0) * 10 / 3}% ,
-                          ${(iIndex + 1) * 5}% ${(jIndex + 0) * 10 / 3}% ,
-                          ${(iIndex + 1) * 5}% ${(jIndex + 1) * 10 / 3}% ,
-                          ${(iIndex + 0) * 5}% ${(jIndex + 1) * 10 / 3}% 
-                      )`}} key={"field-item" + iIndex + "-" + jIndex} ></div>
-                    )
+                ColumnHeight?.map((iItem, iIndex) => {
+                  let height = 0;
+                  console.log(iIndex, sol[Math.ceil(10.5 * iItem)])
+                  return sol[Math.ceil(10.5 * iItem)]?.map((jItem, jIndex) => {
+                    let tempHeight = 100 * block[jIndex] / 1050;
+                    return [...Array(jItem)].map((kItem, kIndex)=>{
+                      height += tempHeight
+                      console.log(iIndex, tempHeight)
+                      console.log("height", height)
+                      return (
+                        <div className={displayFlag ? 'polygon-flag-item' : 'hidden'} style={{
+                          backgroundColor : `${color[jIndex]}`,
+                          clipPath: `polygon(
+                          ${(iIndex + 0) * 5}% ${100 - (height)}% ,
+                          ${(iIndex + 1) * 5}% ${100 - (height)}% ,
+                          ${(iIndex + 1) * 5}% ${100 - (height-tempHeight)}% ,
+                          ${(iIndex + 0) * 5}% ${100 - (height-tempHeight)}% 
+                        )`}} key={"field-item" + iIndex + "-" + jIndex + "-" + kIndex} ></div>
+                      )
+                    })
                   })
                 })
               }
