@@ -122,9 +122,9 @@ function App() {
   function displayCalc() {
     prepareOpitization()
     for (let i = 0; i < maxWidthNum; i++) {
-      let px1 = i * 5, px2 = (i + 1) * 5
-      let tempy11 = -1, tempy12 = -1, tempy21 = -1, tempy22 = -1;
-      let flag1 = false, flag2 = false
+      let px1 = i * 5, px2 = (i + 1) * 5, pxt = i * 5 + 0.0001
+      let tempy11 = -1, tempy12 = -1, tempy21 = -1, tempy22 = -1, tempyt1 = -1, tempyt2 = -1;
+      let flag1 = false, flag2 = false, flagt = false
       for (let pp = 0; pp < polyNumber; pp++) {
         let p1 = polygon[pp], p2
         if (pp === 0) p2 = polygon[polyNumber - 1]
@@ -141,17 +141,25 @@ function App() {
           else tempy22 = yy
           flag2 = true
         }
+        if ((p1.x >= pxt && pxt >= p2.x) || (p1.x <= pxt && pxt <= p2.x)) {
+          let yy = calcCrossPointY(p1, p2, pxt)
+          if (flagt) tempyt1 = yy
+          else tempyt2 = yy
+          flagt = true
+        }
       }
-      let minn = Math.min(tempy11, tempy12, tempy21, tempy22)
-      let maxx = Math.max(tempy11, tempy12, tempy21, tempy22)
+      let minn = Math.min.apply(null, [tempy11, tempy12, tempy21, tempy22].filter(a => a !== -1 && a))
+      let maxx = Math.max.apply(null, [tempy11, tempy12, tempy21, tempy22].filter(Boolean))
       columnTopPoint[i] = minn
       columnBottomPoint[i] = maxx
       columnHeight[i] = maxx - minn
-      if (minn === -1) {
+      console.log(tempy11, tempy12, tempy21, tempy22, maxx, minn)  ///////////
+      if (tempyt1 === -1 && tempyt2 === -1) {
         columnTopPoint[i] = maxx
         columnHeight[i] = 0
       }
       // calcOpitization(10.5 * columnHeight[i])
+      console.log("columnHeight", columnHeight)
     }
   }
   return (
