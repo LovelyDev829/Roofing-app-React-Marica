@@ -193,13 +193,13 @@ function App() {
         top: globalCoords.y - 80,
         left: globalCoords.x + 20,
       }}>{elementName}</div>
-      <div className='header' onClick={() => { setRightBarFlag(false) }} >
+      <div className='header' onClick={() => { setRightBarFlag(false); setLeftBarFlag(true) }} >
         <p>Marica H.</p>
         <p>ROOFING TOOL</p>
         <p>L-Opt Problem</p>
       </div>
       <div className='main' id='number'>
-        <div className={leftBarFlag ? 'slide-right left' : 'left'} onClick={() => { setRightBarFlag(false) }} >
+        <div className={leftBarFlag ? 'slide-right left' : 'left'} onClick={() => { setRightBarFlag(false); setLeftBarFlag(true)}} >
           <div className='left-bar-button' onClick={() => { setLeftBarFlag(!leftBarFlag) }}>
             <RightWard style={leftBarFlag ? { transform: 'rotate(180deg)' } : {}} />
           </div>
@@ -287,7 +287,7 @@ function App() {
             <div className='button' onClick={() => { displayCalc(); setDisplayFlag(true) }}>ROOF</div>
           </div>
         </div>
-        <div className='middle' onClick={() => { if (rightBarFlag) setRightBarFlag(false) }}>
+        <div className='middle' onClick={() => { if (rightBarFlag) {setRightBarFlag(false); setLeftBarFlag(true)} }}>
           <div className={rightBarFlag ? 'draw-area move-left' : 'draw-area'} style={{
             width: `${cellWidth * maxWidthNum}px`, height: `${cellHeight * maxHeightNum}px`,
           }}
