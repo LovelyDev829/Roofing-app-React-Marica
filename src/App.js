@@ -187,9 +187,9 @@ function App() {
     setColumnBottomPoint([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setColumnHeight([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   }
-  useEffect(() => {
-    console.log("polygon", polygon)
-  }, [polygon])
+  // useEffect(() => {
+  //   console.log("polygon", polygon)
+  // }, [polygon])
   return (
     <div className="App">
       <div className={elementName === '' ? 'hidden' : 'element-name'} style={{
