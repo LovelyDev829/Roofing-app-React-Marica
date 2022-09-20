@@ -181,6 +181,7 @@ function App() {
     setHeight(25)
     setBottomWidth(16)
     setTopWidth(10)
+    setSkew(0)
     setDisplayFlag(false)
     setColumnTopPoint([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setColumnBottomPoint([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -199,13 +200,13 @@ function App() {
         <p>L-Opt Problem</p>
       </div>
       <div className='main' id='number'>
-        <div className={leftBarFlag ? 'slide-right left' : 'left'} onClick={() => { setRightBarFlag(false); setLeftBarFlag(true)}} >
+        <div className={leftBarFlag ? 'slide-right left' : 'left'} onClick={() => { setRightBarFlag(false);}} >
           <div className='left-bar-button' onClick={() => { setLeftBarFlag(!leftBarFlag) }}>
             <RightWard style={leftBarFlag ? { transform: 'rotate(180deg)' } : {}} />
           </div>
           <div className='button' onClick={() => { setDrawMode(!drawMode); initialize() }}>{drawMode ? 'INPUT MODE' : 'DRAW MODE'}</div>
           <div className={drawMode ? 'hidden' : 'input-mode'}>
-            <div className='input-item'>
+            <div className='input-item'>initialize
               <p>HELGHT</p>
               <div className='flex'>
                 <input type="number" step={0.1} min={0} max={30} value={Number(height).toFixed(1)}
@@ -241,7 +242,7 @@ function App() {
             <div className='input-item'>
               <p>SKEW</p>
               <div className='flex'>
-                <input type="number" step={0.1} min={0} max={20} value={Number(skew).toFixed(1)}
+                <input type="number" step={0.1} min={-20} max={20} value={Number(skew).toFixed(1)}
                   onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value) }} />
                 <p>X 1.1 =</p>
                 <input type="number" step={0.1} min={-22} max={22} value={Number(skew * unitWidth).toFixed(1)}
