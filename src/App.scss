@@ -57,10 +57,12 @@
             right: 100vw;
             z-index: 9;
             box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.15);
-            padding: 200px 50px 50px 50px;
+            padding: 120px 50px 50px 50px;
             box-sizing: border-box;
             animation-duration: 0.5s;
             transition-duration: 0.5s;
+            // overflow-y: scroll;
+            // overflow-x: unset;
 
             .left-bar-button {
                 position: absolute;
@@ -85,7 +87,7 @@
             }
 
             .input-item {
-                padding: 10px 0px 10px 0px;
+                padding: 5px 0px 5px 0px;
 
                 p {
                     margin: 0px;
@@ -96,24 +98,36 @@
                     display: flex;
 
                     input {
-                        max-width: 40px;
+                        max-width: 50px;
+                    }
+
+                    input[type=number]::-webkit-inner-spin-button {
+                        opacity: 1;
                     }
                 }
             }
 
             .button {
-                background-color: rgb(255, 198, 55);
+                background-color: rgb(210, 210, 210);
                 border-radius: 10px;
-                padding: 10px;
+                padding: 10px 25px 10px 25px;
                 text-align: center;
-                margin-top: 200px;
+                margin: 10px 0px 10px 0px;
                 cursor: pointer;
                 user-select: none;
             }
-
-            .button:hover {
-                background-color: rgb(255, 217, 121);
+            .flex{
+                display: flex;
+                justify-content: space-between;
             }
+            .button:hover {
+                background-color: rgb(255, 255, 255);
+                box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.15);
+            }
+        }
+
+        .left::-webkit-scrollbar {
+            display: none;
         }
 
         .left:hover {
@@ -133,6 +147,8 @@
                 // border: black solid 1px;
                 background-color: rgb(255, 255, 255);
                 margin: auto;
+                transition-duration: 0.5s;
+                animation-duration: 0.5s;
 
                 .element-name {
                     position: absolute;
@@ -191,6 +207,10 @@
                     }
                 }
             }
+
+            .move-left {
+                transform: translate(-350px, 0);
+            }
         }
 
         .right {
@@ -228,6 +248,7 @@
 
             table {
                 width: 100%;
+
                 th {
                     font-size: 15px;
                 }
