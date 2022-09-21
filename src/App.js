@@ -26,7 +26,6 @@ const color = [
 ]
 
 const N = 1e5;
-// const block = [47, 82, 117, 152, 187, 222, 257, 292, 327, 362, 397, 432, 467, 502, 537]
 const block = [35, 70, 105, 140, 175, 210, 245, 280, 315, 350, 385]
 const overlay = 0;
 
@@ -114,16 +113,16 @@ function App() {
         }
       }
     }
-    for(let i=0; i<N ;i++){
+    for (let i = 0; i < N; i++) {
       let tempSolItem = sol[i]
-      for (let i=0; i< block.length; i++){
-        if(tempSolItem[i]>0){
-          for(let j=block.length; j>i+1; j--){
-            if(tempSolItem[j]>0){
+      for (let i = 0; i < block.length; i++) {
+        if (tempSolItem[i] > 0) {
+          for (let j = block.length; j > i + 1; j--) {
+            if (tempSolItem[j] > 0) {
               tempSolItem[i]--
-              tempSolItem[i+1]++
+              tempSolItem[i + 1]++
               tempSolItem[j]--
-              tempSolItem[j-1]++
+              tempSolItem[j - 1]++
               i--
               break
             }
@@ -132,7 +131,6 @@ function App() {
       }
       sol[i] = tempSolItem
     }
-    console.log(sol)
     setSolution(sol)
   }
 
@@ -182,9 +180,9 @@ function App() {
       }
       let minn = Math.min.apply(null, tempPointsY.filter(a => (a !== -1 && a) || (a === 0)))
       let maxx = Math.max.apply(null, tempPointsY.filter(Boolean))
-      let tempArray = columnTopPoint; tempArray[i] = minn; setColumnTopPoint(tempArray)
-      tempArray = columnBottomPoint; tempArray[i] = maxx; setColumnBottomPoint(tempArray)
-      tempArray = columnHeight; tempArray[i] = Number(maxx - minn).toFixed(4); setColumnHeight(tempArray)
+      let tempArray = columnTopPoint; tempArray[i] = Math.floor(minn * 1000) / 1000; setColumnTopPoint(tempArray)
+      tempArray = columnBottomPoint; tempArray[i] = Math.floor(maxx * 1000) / 1000; setColumnBottomPoint(tempArray)
+      tempArray = columnHeight; tempArray[i] = Math.floor((maxx - minn) * 1000) / 1000; setColumnHeight(tempArray)
       if (tempyt1 === -1 && tempyt2 === -1) {
         tempArray = columnTopPoint; tempArray[i] = maxx; setColumnTopPoint(tempArray)
         tempArray = columnHeight; tempArray[i] = 0; setColumnHeight(tempArray)
@@ -337,13 +335,13 @@ function App() {
             {
               polygon?.map((item, index) => {
                 return (
-                  <div className={'polygon point'} style={(drawMode && !displayFlag) ? {
+                  <div className={'polygon back-red'} style={(drawMode && !displayFlag) ? {
                     clipPath: `polygon(
                     ${item?.x - 0.25}% ${item?.y - 0.5}%,
                     ${item?.x - 0.25}% ${item?.y + 0.5}%,
                     ${item?.x + 0.25}% ${item?.y + 0.5}%,
                     ${item?.x + 0.25}% ${item?.y - 0.5}%
-                  )` } : {clipPath: `polygon(0% 0%)`} } key={"polygon-point" + index}></div>
+                  )` } : { clipPath: `polygon(0% 0%)` }} key={"polygon-point" + index}></div>
                 )
               })
             }
@@ -357,34 +355,51 @@ function App() {
                     return [...Array(jItem)].map((kItem, kIndex) => {
                       height += tempHeight
                       return (
-                        <div className={displayFlag ? 'polygon-flag-item' : 'hidden'} style={{
-                          backgroundColor: `${color[jIndex]}`,
-                          clipPath: `polygon(
+                        <div key={"field-item" + iIndex + "-" + jIndex + "-" + kIndex}>
+                          <div className={displayFlag ? 'polygon-flag-item' : 'hidden'} style={{
+                            backgroundColor: `${color[jIndex]}`,
+                            clipPath: `polygon(
                             ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
                             ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
                             ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
                             ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% 
-                          )`}} key={"field-item" + iIndex + "-" + jIndex + "-" + kIndex}
-                          onClick={() => {
-                            setRightBarFlag(true)
-                            setLeftBarFlag(false)
-                          }}
-                          onMouseOver={() => {
-                            setElementName(`M${jIndex + 1}`)
-                            setElementColumn(iIndex)
-                            setElementNameBack(color[jIndex])
-                          }}
-                          onMouseLeave={() => {
-                            setElementName('')
-                            setElementColumn(-1)
-                          }}
-                          onMouseMove={(event) => {
-                            setGlobalCoords({
-                              x: event.screenX,
-                              y: event.screenY,
-                            });
-                          }}
-                        ></div>
+                          )`}}
+                            onClick={() => {
+                              setRightBarFlag(true)
+                              setLeftBarFlag(false)
+                            }}
+                            onMouseOver={() => {
+                              setElementName(`M${jIndex + 1}`)
+                              setElementColumn(iIndex)
+                              setElementNameBack(color[jIndex])
+                            }}
+                            onMouseLeave={() => {
+                              setElementName('')
+                              setElementColumn(-1)
+                            }}
+                            onMouseMove={(event) => {
+                              setGlobalCoords({
+                                x: event.screenX,
+                                y: event.screenY,
+                              });
+                            }}
+                          ></div>
+                          <div className={displayFlag ? 'polygon-flag-item back-border' : 'hidden'} style={{
+                            backgroundColor: `${color[jIndex]}`,
+                            clipPath: `polygon(
+                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
+                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
+                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
+                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
+                            
+                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}%,
+                            ${(iIndex + 0) * 5+0.0625}% ${columnBottomPoint[iIndex] - (height)}%,
+                            ${(iIndex + 0) * 5+0.0625}% ${columnBottomPoint[iIndex] - (height - tempHeight)-0.125}% ,
+                            ${(iIndex + 1) * 5-0.0625}% ${columnBottomPoint[iIndex] - (height - tempHeight)-0.125}% ,
+                            ${(iIndex + 1) * 5-0.0625}% ${columnBottomPoint[iIndex] - (height)+0.125}% ,
+                            ${(iIndex + 0) * 5+0.0625}% ${columnBottomPoint[iIndex] - (height)+0.125}%
+                          )`}}></div>
+                        </div>
                       )
                     })
                   })

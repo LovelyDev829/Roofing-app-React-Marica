@@ -187,10 +187,6 @@
                     z-index: 1;
                 }
 
-                .point {
-                    background-color: rgb(255, 0, 0);
-                }
-
                 .polygon-flag-field {
                     position: absolute;
                     top: 1px;
@@ -278,5 +274,11 @@
 
     .hidden {
         display: none;
+    }
+    .back-red {
+        background-color: rgb(255, 0, 0) !important;
+    }
+    .back-border {
+        background-color: rgba(231, 231, 231, 0.891) !important;
     }
 }
