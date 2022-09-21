@@ -3,8 +3,9 @@ import GridLines from "react-gridlines";
 import { useEffect, useState } from 'react';
 import { ReactComponent as RightWard } from "./assets/rightward.svg";
 
-const cellWidth = 44, cellHeight = 14;
-const unitWidth = 1.1, unitHeight = 0.35;
+
+// const unitWidth = 1.1, unitHeight = 0.35;
+// const cellWidth = unitWidth * 40, cellHeight = unitHeight * 40;
 const maxHeightNum = 30;
 const maxWidthNum = 20;
 const color = [
@@ -31,6 +32,12 @@ const overlay = 0;
 
 
 function App() {
+
+  const [unitWidth, setUnitWidth] = useState(1.1)
+  const [unitHeight] = useState(0.35)
+  const [cellWidth, setCellWidth] = useState(44)
+  const [cellHeight] = useState(14)
+
 
   const [height, setHeight] = useState(25)
   const [bottomWidth, setBottomWidth] = useState(16)
@@ -222,7 +229,12 @@ function App() {
           <div className='left-bar-button' onClick={() => { setLeftBarFlag(!leftBarFlag) }}>
             <RightWard style={leftBarFlag ? { transform: 'rotate(180deg)' } : {}} />
           </div>
-          <div className='button' onClick={() => { setDrawMode(!drawMode); initialize() }}>{drawMode ? 'INPUT MODE' : 'DRAW MODE'}</div>
+          <div className='button' onClick={() => { setDrawMode(!drawMode); initialize() }}>{drawMode ? 'GOTO INPUT MODE' : 'GOTO DRAW MODE'}</div>
+          <div className='button' onClick={() => {
+            if(unitWidth === 1.0) {setUnitWidth(1.1); setCellWidth(44)}
+            else {setUnitWidth(1.0); setCellWidth(40)}
+            // initialize()
+            }}>{unitWidth ===1.0 ? 'TURN TO 1.1 M' : 'TURN TO 1.0 M'}</div>
           <div className={drawMode ? 'hidden' : 'input-mode'}>
             <div className='input-item'>
               <p>HELGHT</p>
