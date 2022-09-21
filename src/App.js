@@ -317,7 +317,7 @@ function App() {
             {
               polygon?.map((item, index) => {
                 return (
-                  <div className={'polygon point'} style={(!drawMode && !displayFlag) ? {} : {
+                  <div className={'polygon point'} style={(!drawMode && !displayFlag) ? {clipPath: `polygon(0% 0%)`} : {
                     clipPath: `polygon(
                     ${item?.x - 0.25}% ${item?.y - 0.5}%,
                     ${item?.x - 0.25}% ${item?.y + 0.5}%,
