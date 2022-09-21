@@ -94,7 +94,7 @@ function App() {
     for (let i = 1; i < N; i++) {
       for (let j = 0; j < block.length; j++) {
         if (i <= block[j]) {
-          if (dp[i] > block[j]) {
+          if (dp[i] >= block[j]) {
             dp[i] = block[j];
             for (let k = 0; k < block.length; k++) {
               if (k === j) sol[i][k] = 1
@@ -166,13 +166,14 @@ function App() {
       let maxx = Math.max.apply(null, tempPointsY.filter(Boolean))
       let tempArray = columnTopPoint; tempArray[i] = minn; setColumnTopPoint(tempArray)
       tempArray = columnBottomPoint; tempArray[i] = maxx; setColumnBottomPoint(tempArray)
-      tempArray = columnHeight; tempArray[i] = maxx - minn; setColumnHeight(tempArray)
+      tempArray = columnHeight; tempArray[i] = Number(maxx - minn).toFixed(4); setColumnHeight(tempArray)
       if (tempyt1 === -1 && tempyt2 === -1) {
         tempArray = columnTopPoint; tempArray[i] = maxx; setColumnTopPoint(tempArray)
         tempArray = columnHeight; tempArray[i] = 0; setColumnHeight(tempArray)
       }
       // calcOpitization(10.5 * columnHeight[i])
       if (i === maxWidthNum - 1) {
+        console.log(columnHeight)
       }
     }
   }
@@ -333,6 +334,7 @@ function App() {
                 columnHeight?.map((iItem, iIndex) => {
                   let height = 0;
                   return solution[Math.ceil(maxHeightNum * unitHeight * iItem)]?.map((jItem, jIndex) => {
+                    // if(jIndex ===0 ) return <></>
                     let tempHeight = block[jIndex] / (maxHeightNum * unitHeight);          /////////////////////////////
                     return [...Array(jItem)].map((kItem, kIndex) => {
                       height += tempHeight
