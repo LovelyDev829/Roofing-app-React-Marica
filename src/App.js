@@ -49,7 +49,7 @@ function App() {
   const [elementColumn, setElementColumn] = useState(-1)
   const [elementNameBack, setElementNameBack] = useState('')
   const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
-  var total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const [drawMode, setDrawMode] = useState(false)
   const [pathString, setPathString] = useState('0% 0%')
   useEffect(() => {
@@ -85,7 +85,7 @@ function App() {
     var cnt = [];
 
     for (let i = 0; i < N; i++) {
-      sol.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+      sol.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
       dp.push(N)
       cnt.push(N)
     }
@@ -318,13 +318,13 @@ function App() {
             {
               polygon?.map((item, index) => {
                 return (
-                  <div className={'polygon point'} style={(!drawMode && !displayFlag) ? {clipPath: `polygon(0% 0%)`} : {
+                  <div className={'polygon point'} style={(drawMode && !displayFlag) ? {
                     clipPath: `polygon(
                     ${item?.x - 0.25}% ${item?.y - 0.5}%,
                     ${item?.x - 0.25}% ${item?.y + 0.5}%,
                     ${item?.x + 0.25}% ${item?.y + 0.5}%,
                     ${item?.x + 0.25}% ${item?.y - 0.5}%
-                  )` }} key={"polygon-point" + index}></div>
+                  )` } : {clipPath: `polygon(0% 0%)`} } key={"polygon-point" + index}></div>
                 )
               })
             }

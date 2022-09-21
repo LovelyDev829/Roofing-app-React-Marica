@@ -116,10 +116,12 @@
                 cursor: pointer;
                 user-select: none;
             }
-            .flex{
+
+            .flex {
                 display: flex;
                 justify-content: space-between;
             }
+
             .button:hover {
                 background-color: rgb(255, 255, 255);
                 box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.15);
@@ -185,7 +187,7 @@
                     z-index: 1;
                 }
 
-                .point{
+                .point {
                     background-color: rgb(255, 0, 0);
                 }
 
@@ -231,6 +233,7 @@
             box-sizing: border-box;
             animation-duration: 0.5s;
             transition-duration: 0.5s;
+            overflow-y: scroll;
 
             .right-bar-button {
                 position: absolute;
@@ -252,7 +255,6 @@
 
             table {
                 width: 100%;
-
                 th {
                     font-size: 15px;
                 }
@@ -262,7 +264,9 @@
                 background-color: white;
             }
         }
-
+        .right::-webkit-scrollbar {
+            display: none;
+        }
         .right:hover {
             background-color: rgb(245, 245, 245);
         }
