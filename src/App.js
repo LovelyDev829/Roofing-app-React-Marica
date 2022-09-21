@@ -187,9 +187,6 @@ function App() {
     setColumnBottomPoint([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setColumnHeight([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   }
-  // useEffect(() => {
-  //   console.log("polygon", polygon)
-  // }, [polygon])
   return (
     <div className="App">
       <div className={elementName === '' ? 'hidden' : 'element-name'} style={{
@@ -259,13 +256,13 @@ function App() {
               polygon?.map((item, index) => {
                 return (
                   <div className='input-item' key={'draw-input-item' + index}>
-                    <p>Point {index + 1}</p>
+                    {/* <p>Point {index + 1}</p> */}
                     <div className='flex'>
                       <p>X : </p>
                       <input type="number" step={0.1} min={-22} max={22} value={Number(item.x * unitWidth * maxWidthNum / 100).toFixed(1)}
                         onChange={(e) => {
                           let tempPolygon = polygon
-                          tempPolygon[index].x = e.target.value*100/(unitWidth*maxWidthNum)
+                          tempPolygon[index].x = e.target.value * 100 / (unitWidth * maxWidthNum)
                           setPolygon([...tempPolygon])
                           setDisplayFlag(false)
                           setBottomLeft()
@@ -274,7 +271,7 @@ function App() {
                       <input type="number" step={0.1} min={-10.5} max={10.5} value={Number((100 - item.y) * unitHeight * maxHeightNum / 100).toFixed(1)}
                         onChange={(e) => {
                           let tempPolygon = polygon
-                          tempPolygon[index].y = 100-(e.target.value*100/(unitHeight*maxHeightNum))
+                          tempPolygon[index].y = 100 - (e.target.value * 100 / (unitHeight * maxHeightNum))
                           setPolygon([...tempPolygon])
                           setDisplayFlag(false)
                           setBottomLeft()
@@ -317,6 +314,19 @@ function App() {
                 ${polygon[2]?.x}% ${polygon[2]?.y}%,
                 ${polygon[3]?.x}% ${polygon[3]?.y}%
               )`} : (pathString ? { clipPath: `polygon(${pathString})` } : { clipPath: `polygon(0% 0%)` })}></div>
+            {
+              polygon?.map((item, index) => {
+                return (
+                  <div className={'polygon point'} style={(!drawMode && !displayFlag) ? {} : {
+                    clipPath: `polygon(
+                    ${item?.x - 0.25}% ${item?.y - 0.5}%,
+                    ${item?.x - 0.25}% ${item?.y + 0.5}%,
+                    ${item?.x + 0.25}% ${item?.y + 0.5}%,
+                    ${item?.x + 0.25}% ${item?.y - 0.5}%
+                  )` }} key={"polygon-point" + index}></div>
+                )
+              })
+            }
             <div className='polygon-flag-field'>
               {
                 columnHeight?.map((iItem, iIndex) => {
