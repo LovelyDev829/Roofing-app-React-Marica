@@ -26,7 +26,8 @@ const color = [
 ]
 
 const N = 1e5;
-const block = [47, 82, 117, 152, 187, 222, 257, 292, 327, 362, 397, 432, 467, 502, 537], bn = 15;
+// const block = [47, 82, 117, 152, 187, 222, 257, 292, 327, 362, 397, 432, 467, 502, 537]
+const block = [47, 82, 117, 152, 187, 222, 257, 292, 327, 362, 397]
 const over = 2;
 
 
@@ -91,11 +92,11 @@ function App() {
     let ov = over;
     dp[0] = 0;
     for (let i = 1; i < N; i++) {
-      for (let j = 0; j < bn; j++) {
+      for (let j = 0; j < block.length; j++) {
         if (i <= block[j]) {
           if (dp[i] > block[j]) {
             dp[i] = block[j];
-            for (let k = 0; k < bn; k++) {
+            for (let k = 0; k < block.length; k++) {
               if (k === j) sol[i][k] = 1
               else sol[i][k] = 0
             }
@@ -106,7 +107,7 @@ function App() {
           if (dp[i] > dp[i - block[j] + ov] + block[j] || (dp[i] === dp[i - block[j] + ov] + block[j] && cnt[i] > cnt[i - block[j] + ov] + 1)) {
             dp[i] = dp[i - block[j] + ov] + block[j];
             cnt[i] = cnt[i - block[j] + ov] + 1;
-            for (let k = 0; k < bn; k++) {
+            for (let k = 0; k < block.length; k++) {
               if (k === j) sol[i][k] = sol[i - block[j] + ov][k] + 1;
               else sol[i][k] = sol[i - block[j] + ov][k] + 0;
             }
@@ -381,7 +382,7 @@ function App() {
               <tr>
                 <th>Column</th>
                 {
-                  [...Array(15)].map((item, index) => {
+                  [...Array(block.length)].map((item, index) => {
                     return <th key={"table-header" + index}>M{index + 1}</th>
                   })
                 }
