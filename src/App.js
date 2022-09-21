@@ -28,7 +28,7 @@ const color = [
 const N = 1e5;
 // const block = [47, 82, 117, 152, 187, 222, 257, 292, 327, 362, 397, 432, 467, 502, 537]
 const block = [35, 70, 105, 140, 175, 210, 245, 280, 315, 350, 385]
-const over = 0;
+const overlay = 0;
 
 
 function App() {
@@ -89,7 +89,6 @@ function App() {
       dp.push(N)
       cnt.push(N)
     }
-    let ov = over;
     dp[0] = 0;
     for (let i = 1; i < N; i++) {
       for (let j = 0; j < block.length; j++) {
@@ -104,17 +103,36 @@ function App() {
           }
         }
         else {
-          if (dp[i] > dp[i - block[j] + ov] + block[j] || (dp[i] === dp[i - block[j] + ov] + block[j] && cnt[i] > cnt[i - block[j] + ov] + 1)) {
-            dp[i] = dp[i - block[j] + ov] + block[j];
-            cnt[i] = cnt[i - block[j] + ov] + 1;
+          if (dp[i] > dp[i - block[j] + overlay] + block[j] || (dp[i] === dp[i - block[j] + overlay] + block[j] && cnt[i] > cnt[i - block[j] + overlay] + 1)) {
+            dp[i] = dp[i - block[j] + overlay] + block[j];
+            cnt[i] = cnt[i - block[j] + overlay] + 1;
             for (let k = 0; k < block.length; k++) {
-              if (k === j) sol[i][k] = sol[i - block[j] + ov][k] + 1;
-              else sol[i][k] = sol[i - block[j] + ov][k] + 0;
+              if (k === j) sol[i][k] = sol[i - block[j] + overlay][k] + 1;
+              else sol[i][k] = sol[i - block[j] + overlay][k] + 0;
             }
           }
         }
       }
     }
+    for(let i=0; i<N ;i++){
+      let tempSolItem = sol[i]
+      for (let i=0; i< block.length; i++){
+        if(tempSolItem[i]>0){
+          for(let j=block.length; j>i+1; j--){
+            if(tempSolItem[j]>0){
+              tempSolItem[i]--
+              tempSolItem[i+1]++
+              tempSolItem[j]--
+              tempSolItem[j-1]++
+              i--
+              break
+            }
+          }
+        }
+      }
+      sol[i] = tempSolItem
+    }
+    console.log(sol)
     setSolution(sol)
   }
 
@@ -172,9 +190,9 @@ function App() {
         tempArray = columnHeight; tempArray[i] = 0; setColumnHeight(tempArray)
       }
       // calcOpitization(10.5 * columnHeight[i])
-      if (i === maxWidthNum - 1) {
-        console.log(columnHeight)
-      }
+      // if (i === maxWidthNum - 1) {
+      //   console.log(columnHeight)
+      // }
     }
   }
   function initialize() {
