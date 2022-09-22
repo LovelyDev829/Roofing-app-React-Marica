@@ -1,11 +1,12 @@
-import './App.scss';
-import GridLines from "react-gridlines";
 import { useEffect, useState } from 'react';
 import { ReactComponent as RightWard } from "./assets/rightward.svg";
+import './App.scss';
+import GridLines from 'react-gridlines';
+import LeftBar from './components/LeftBar';
+import RightBar from './components/RightBar';
+import MainGraph from './components/MainGraph';
+import MainPDF from './components/MainPDF';
 
-
-// const unitWidth = 1.1, unitHeight = 0.35;
-// const cellWidth = unitWidth * 40, cellHeight = unitHeight * 40;
 const maxWidthNum = 20;
 const maxHeightNum = 30;
 const color = [
@@ -25,11 +26,9 @@ const color = [
   'rgb(135, 56, 56)',
   'rgb(61, 56, 135)'
 ]
-
 const N = 1e5;
 const block = [35, 70, 105, 140, 175, 210, 245, 280, 315, 350, 385]
 const overlay = 0;
-
 
 function App() {
 
@@ -37,27 +36,27 @@ function App() {
   const [unitHeight] = useState(0.35)
   const [cellWidth, setCellWidth] = useState(44)
   const [cellHeight] = useState(14)
-
-
   const [height, setHeight] = useState(25)
   const [bottomWidth, setBottomWidth] = useState(16)
   const [topWidth, setTopWidth] = useState(10)
   const [skew, setSkew] = useState(0)
+  const [elementColumn, setElementColumn] = useState(-1)
   const [polygon, setPolygon] = useState([])
-  const [columnTopPoint, setColumnTopPoint] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-  const [columnBottomPoint, setColumnBottomPoint] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-  const [columnHeight, setColumnHeight] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   const [solution, setSolution] = useState([])
+  const [elementName, setElementName] = useState('')
+  const [elementNameBack, setElementNameBack] = useState('')
   const [displayFlag, setDisplayFlag] = useState(false)
   const [leftBarFlag, setLeftBarFlag] = useState(true)
   const [rightBarFlag, setRightBarFlag] = useState(false)
-  const [elementName, setElementName] = useState('')
-  const [elementColumn, setElementColumn] = useState(-1)
-  const [elementNameBack, setElementNameBack] = useState('')
-  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
-  var total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const [drawMode, setDrawMode] = useState(false)
+  const [pdfMode, setPdfMode] = useState(false)
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
   const [pathString, setPathString] = useState('0% 0%')
+  const [columnTopPoint, setColumnTopPoint] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+  const [columnBottomPoint, setColumnBottomPoint] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+  const [columnHeight, setColumnHeight] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+  var total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
   useEffect(() => {
     if (!drawMode) {
       setPolygon([
@@ -225,237 +224,25 @@ function App() {
         <p>L-Opt Problem</p>
       </div>
       <div className='main' id='number'>
-        <div className={leftBarFlag ? 'slide-right left' : 'left'} onClick={() => { setRightBarFlag(false); }} >
-          <div className='left-bar-button' onClick={() => { setLeftBarFlag(!leftBarFlag) }}>
-            <RightWard style={leftBarFlag ? { transform: 'rotate(180deg)' } : {}} />
-          </div>
-          <div className='button' onClick={() => { setDrawMode(!drawMode); initialize() }}>{drawMode ? 'GOTO INPUT MODE' : 'GOTO DRAW MODE'}</div>
-          <div className='button' onClick={() => {
-            if(unitWidth === 1.0) {setUnitWidth(1.1); setCellWidth(44)}
-            else {setUnitWidth(1.0); setCellWidth(40)}
-            }}>{unitWidth ===1.0 ? 'TURN TO 1.1 M' : 'TURN TO 1.0 M'}</div>
-          <div className={drawMode ? 'hidden' : 'input-mode'}>
-            <div className='input-item'>
-              <p>HELGHT</p>
-              <div className='flex'>
-                <input type="number" step={0.1} min={0} max={30} value={Number(height).toFixed(1)}
-                  onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value) }} />
-                <p>X   0.35 =</p>
-                <input type="number" step={0.1} min={0} max={10.5} value={Number(height * unitHeight).toFixed(1)}
-                  onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value / unitHeight) }} />
-                <p>(M)</p>
-              </div>
-            </div>
-            <div className='input-item'>
-              <p>TOP-WIDTH</p>
-              <div className='flex'>
-                <input type="number" step={0.1} min={0} max={20} value={Number(topWidth).toFixed(1)}
-                  onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value) }} />
-                <p>X 1.1 =</p>
-                <input type="number" step={0.1} min={0} max={22} value={Number(topWidth * unitWidth).toFixed(1)}
-                  onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value / unitWidth) }} />
-                <p>(M)</p>
-              </div>
-            </div>
-            <div className='input-item'>
-              <p>BOTTOM-WIDTH</p>
-              <div className='flex'>
-                <input type="number" step={0.1} min={0} max={20} value={Number(bottomWidth).toFixed(1)}
-                  onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value) }} />
-                <p>X 1.1 =</p>
-                <input type="number" step={0.1} min={0} max={22} value={Number(bottomWidth * unitWidth).toFixed(1)}
-                  onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value / unitWidth) }} />
-                <p>(M)</p>
-              </div>
-            </div>
-            <div className='input-item'>
-              <p>SKEW</p>
-              <div className='flex'>
-                <input type="number" step={0.1} min={-20} max={20} value={Number(skew).toFixed(1)}
-                  onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value) }} />
-                <p>X 1.1 =</p>
-                <input type="number" step={0.1} min={-22} max={22} value={Number(skew * unitWidth).toFixed(1)}
-                  onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value / unitWidth) }} />
-                <p>(M)</p>
-              </div>
-            </div>
-          </div>
-          <div className={drawMode ? 'input-mode' : 'hidden'}>
-            {
-              polygon?.map((item, index) => {
-                return (
-                  <div className='input-item' key={'draw-input-item' + index}>
-                    {/* <p>Point {index + 1}</p> */}
-                    <div className='flex'>
-                      <p>X : </p>
-                      <input type="number" step={0.1} min={-22} max={22} value={Number(item.x * unitWidth * maxWidthNum / 100).toFixed(1)}
-                        onChange={(e) => {
-                          let tempPolygon = polygon
-                          tempPolygon[index].x = e.target.value * 100 / (unitWidth * maxWidthNum)
-                          setPolygon([...tempPolygon])
-                          setDisplayFlag(false)
-                          setBottomLeft()
-                        }} />
-                      <p>Y : </p>
-                      <input type="number" step={0.1} min={-10.5} max={10.5} value={Number((100 - item.y) * unitHeight * maxHeightNum / 100).toFixed(1)}
-                        onChange={(e) => {
-                          let tempPolygon = polygon
-                          tempPolygon[index].y = 100 - (e.target.value * 100 / (unitHeight * maxHeightNum))
-                          setPolygon([...tempPolygon])
-                          setDisplayFlag(false)
-                          setBottomLeft()
-                        }} />
-                      <p>(M)</p>
-                    </div>
-                  </div>
-                )
-              })
-            }
-          </div>
-          <div className='flex'>
-            <div className='button' onClick={() => { initialize(); }}>RESET</div>
-            <div className='button' onClick={() => { displayCalc(); setDisplayFlag(true) }}>ROOF</div>
-          </div>
-        </div>
-        <div className='middle' onClick={() => { if (rightBarFlag) { setRightBarFlag(false); setLeftBarFlag(true) } }}>
-          <div className={rightBarFlag ? 'draw-area move-left' : 'draw-area'} style={{
-            width: `${cellWidth * maxWidthNum}px`, height: `${cellHeight * maxHeightNum}px`,
-          }}
-            onClick={(event) => {
-              if (!drawMode || displayFlag || polygon.length >= 8) return
-              let currentTargetRect = event.currentTarget.getBoundingClientRect();
-              const x = (event.pageX - currentTargetRect.left) / (cellWidth*maxWidthNum/100)
-              const y = (event.pageY - currentTargetRect.top) / (cellHeight*maxHeightNum/100)
-              if (pathString === '0% 0%') setPathString(`${x}% ${y}%`)
-              else setPathString(pathString + `, ${x}% ${y}%`)
-              setPolygon([...polygon, { x: x, y: y }])
-            }}>
-            <GridLines
-              className="grid-background"
-              cellHeight={cellHeight}
-              cellWidth={cellWidth}
-              strokeWidth={1}
-            ></GridLines>
-            <div className={'polygon'} style={!drawMode ? {
-              clipPath: `polygon(
-                ${polygon[0]?.x}% ${polygon[0]?.y}%,
-                ${polygon[1]?.x}% ${polygon[1]?.y}%,
-                ${polygon[2]?.x}% ${polygon[2]?.y}%,
-                ${polygon[3]?.x}% ${polygon[3]?.y}%
-              )`} : (pathString ? { clipPath: `polygon(${pathString})` } : { clipPath: `polygon(0% 0%)` })}></div>
-            {
-              polygon?.map((item, index) => {
-                return (
-                  <div className={'polygon back-red'} style={(drawMode && !displayFlag) ? {
-                    clipPath: `polygon(
-                    ${item?.x - 0.25}% ${item?.y - 0.5}%,
-                    ${item?.x - 0.25}% ${item?.y + 0.5}%,
-                    ${item?.x + 0.25}% ${item?.y + 0.5}%,
-                    ${item?.x + 0.25}% ${item?.y - 0.5}%
-                  )` } : { clipPath: `polygon(0% 0%)` }} key={"polygon-point" + index}></div>
-                )
-              })
-            }
-            <div className='polygon-flag-field'>
-              {
-                columnHeight?.map((iItem, iIndex) => {
-                  let height = 0;
-                  return solution[Math.ceil(maxHeightNum * unitHeight * iItem)]?.map((jItem, jIndex) => {
-                    // if(jIndex ===0 ) return <></>
-                    let tempHeight = block[jIndex] / (maxHeightNum * unitHeight);          /////////////////////////////
-                    return [...Array(jItem)].map((kItem, kIndex) => {
-                      height += tempHeight
-                      return (
-                        <div key={"field-item" + iIndex + "-" + jIndex + "-" + kIndex}>
-                          <div className={displayFlag ? 'polygon-flag-item' : 'hidden'} style={{
-                            backgroundColor: `${color[jIndex]}`,
-                            clipPath: `polygon(
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% 
-                          )`}}
-                            onClick={() => {
-                              setRightBarFlag(true)
-                              setLeftBarFlag(false)
-                            }}
-                            onMouseOver={() => {
-                              setElementName(`M${jIndex + 1}`)
-                              setElementColumn(iIndex)
-                              setElementNameBack(color[jIndex])
-                            }}
-                            onMouseLeave={() => {
-                              setElementName('')
-                              setElementColumn(-1)
-                            }}
-                            onMouseMove={(event) => {
-                              setGlobalCoords({
-                                x: event.screenX,
-                                y: event.screenY,
-                              });
-                            }}
-                          ></div>
-                          <div className={displayFlag ? 'polygon-flag-item back-border' : 'hidden'} style={{
-                            backgroundColor: `${color[jIndex]}`,
-                            clipPath: `polygon(
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
-                            
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}%,
-                            ${(iIndex + 0) * 5+0.0625}% ${columnBottomPoint[iIndex] - (height)}%,
-                            ${(iIndex + 0) * 5+0.0625}% ${columnBottomPoint[iIndex] - (height - tempHeight)-0.125}% ,
-                            ${(iIndex + 1) * 5-0.0625}% ${columnBottomPoint[iIndex] - (height - tempHeight)-0.125}% ,
-                            ${(iIndex + 1) * 5-0.0625}% ${columnBottomPoint[iIndex] - (height)+0.125}% ,
-                            ${(iIndex + 0) * 5+0.0625}% ${columnBottomPoint[iIndex] - (height)+0.125}%
-                          )`}}></div>
-                        </div>
-                      )
-                    })
-                  })
-                })
-              }
-            </div>
-          </div>
-        </div>
-        <div className={rightBarFlag ? 'slide-left right' : 'right'}>
-          <div className='right-bar-button' onClick={() => { setRightBarFlag(!rightBarFlag) }}>
-            <RightWard style={rightBarFlag ? {} : { transform: 'rotate(180deg)' }} />
-          </div>
-          <table>
-            <tbody>
-              <tr>
-                <th>Column</th>
-                {
-                  [...Array(block.length)].map((item, index) => {
-                    return <th key={"table-header" + index}>M{index + 1}</th>
-                  })
-                }
-              </tr>
-              {
-                [...Array(21)].map((iItem, iIndex) => {
-                  return <tr key={"table-item" + iIndex}>
-                    <th>{iIndex === 20 ? 'Total' : iIndex + 1}</th>
-                    {
-                      solution[Math.ceil(10.5 * columnHeight[iIndex])]?.map((jItem, jIndex) => {
-                        total[jIndex] += jItem
-                        return <th key={"table-item" + iIndex + '-' + jIndex}
-                          style={elementColumn === iIndex ? { backgroundColor: elementNameBack, color: 'white' } : {}}>{jItem}</th>
-                      })
-
-                    }
-                    {
-                      iIndex === 20 && total?.map((item, index) => {
-                        return <th key={"table-item-total" + index}>{item}</th>
-                      })
-                    }
-                  </tr>
-                })
-              }
-            </tbody>
-          </table>
-        </div>
+        <LeftBar leftBarFlag={leftBarFlag} setLeftBarFlag={setLeftBarFlag} setRightBarFlag={setRightBarFlag} drawMode={drawMode}
+          setDrawMode={setDrawMode} initialize={initialize} unitWidth={unitWidth} setUnitWidth={setUnitWidth} unitHeight={unitHeight}
+          setCellWidth={setCellWidth} setDisplayFlag={setDisplayFlag} height={height} setHeight={setHeight} topWidth={topWidth}
+          setTopWidth={setTopWidth} bottomWidth={bottomWidth} setBottomWidth={setBottomWidth} skew={skew} setSkew={setSkew}
+          polygon={polygon} setPolygon={setPolygon} setBottomLeft={setBottomLeft} maxWidthNum={maxWidthNum} maxHeightNum={maxHeightNum}
+          displayCalc={displayCalc} pdfMode={pdfMode} setPdfMode={setPdfMode} displayFlag={displayFlag} />
+        {
+          pdfMode ?
+            <MainPDF />
+            :
+            <MainGraph setLeftBarFlag={setLeftBarFlag} setRightBarFlag={setRightBarFlag} drawMode={drawMode} unitHeight={unitHeight}
+              polygon={polygon} setPolygon={setPolygon} maxWidthNum={maxWidthNum} maxHeightNum={maxHeightNum} color={color}
+              rightBarFlag={rightBarFlag} block={block} solution={solution} columnHeight={columnHeight} cellWidth={cellWidth}
+              cellHeight={cellHeight} displayFlag={displayFlag} columnBottomPoint={columnBottomPoint} setGlobalCoords={setGlobalCoords}
+              setElementColumn={setElementColumn} setElementName={setElementName} setElementNameBack={setElementNameBack}
+              pathString={pathString} setPathString={setPathString} GridLines={GridLines} />
+        }
+        <RightBar rightBarFlag={rightBarFlag} setRightBarFlag={setRightBarFlag} RightWard={RightWard} block={block} solution={solution}
+          columnHeight={columnHeight} total={total} elementColumn={elementColumn} elementNameBack={elementNameBack} />
       </div>
     </div>
   );

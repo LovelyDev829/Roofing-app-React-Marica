@@ -1,0 +1,73 @@
+// paint.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 1e5;
+int block[] = { 4, 5, 6 }, bn = 3;
+double over = 0.2;
+int b[100];
+int dp[N];
+int sol[N][20];
+int cnt[N];
+
+void prepare();
+void calc(double x);
+
+int main()
+{
+    while (1) {
+        prepare();
+
+        double h;
+
+        cin >> h;
+        calc(h);
+        cout << "-------------" << endl;
+    }
+    return 0;
+}
+
+void prepare() {
+    for (int i = 0; i < bn; i++) {
+        b[i] = block[i] * 10;
+    }
+    int ov = over * 10;
+    memset(dp, 0x3f, sizeof dp);
+    memset(cnt, 0x3f, sizeof cnt);
+    dp[0] = 0;
+    for (int i = 1; i < N; i++) {
+        for (int j = 0; j < bn; j++) {
+            if (i <= b[j]) {
+                if (dp[i] > b[j]) {
+                    dp[i] = b[j];
+                    for (int k = 0; k < bn; k++) {
+                        sol[i][k] = k == j;
+                    }
+                    cnt[i] = 1;
+                }
+            }
+            else {
+                if (dp[i] > dp[i - b[j] + ov] + b[j] || dp[i] == dp[i - b[j] + ov] + b[j] && cnt[i] > cnt[i - b[j] + ov] + 1) {
+                    dp[i] = dp[i - b[j] + ov] + b[j];
+                    cnt[i] = cnt[i - b[j] + ov] + 1;
+                    for (int k = 0; k < bn; k++) {
+                        sol[i][k] = sol[i - b[j] + ov][k] + (k == j);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void calc(double x) {
+    int h = ceil(x * 10);
+    cout << dp[h] / 10. << endl;
+    for (int i = 0; i < bn; i++) {
+        cout << sol[h][i] << ' ';
+    }
+    cout << endl << cnt[h] << endl;
+}

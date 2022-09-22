@@ -115,16 +115,25 @@
                 margin: 10px 0px 10px 0px;
                 cursor: pointer;
                 user-select: none;
+                transition-duration: 0.2s;
             }
-
-            .flex {
-                display: flex;
-                justify-content: space-between;
-            }
-
             .button:hover {
                 background-color: rgb(255, 255, 255);
                 box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.15);
+            }
+            .button-disabled {
+                background-color: rgb(255, 255, 255);
+                color: rgba(0, 0, 0, 0.391);
+                border-radius: 10px;
+                padding: 10px 25px 10px 25px;
+                text-align: center;
+                margin: 10px 0px 10px 0px;
+                cursor: pointer;
+                user-select: none;
+            }
+            .flex {
+                display: flex;
+                justify-content: space-between;
             }
         }
 

@@ -1,0 +1,95 @@
+// paint.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 1e4;
+int block[] = { 1,4,6,9 }, bn = 4;
+double over = 0;
+int b[100];
+int dp[N];
+int sol[N][20];
+int cnt[N];
+
+void prepare();
+void calc(double x);
+
+double overage(int a[], int id);
+
+int main()
+{
+    while (1) {
+        prepare();
+
+        double h;
+
+        cin >> h;
+        calc(h);
+        cout << "-------------" << endl;
+    }
+    return 0;
+}
+
+void prepare() {
+    for (int i = 0; i < bn; i++) {
+        b[i] = block[i];
+    }
+    memset(dp, 0x3f, sizeof dp);
+    memset(cnt, 0x3f, sizeof cnt);
+    dp[0] = 0;
+    for (int i = 1; i < N; i++) {
+        for (int j = 0; j < bn; j++) {
+            if (i <= b[j]) {
+                if (dp[i] >= b[j]) {
+                    dp[i] = b[j];
+                    for (int k = 0; k < bn; k++) {
+                        sol[i][k] = k == j;
+                    }
+                    cnt[i] = 1;
+                }
+            }
+            else {
+                bool bad = false;
+                if (dp[i] < dp[i - b[j]] + b[j]) bad = true;
+                else if (dp[i] == dp[i - b[j]] + b[j]) {
+                    if (cnt[i] < cnt[i - b[j]] + 1) bad = true;
+                    else if (cnt[i] == cnt[i - b[j]] + 1 && overage(sol[i], -1) < overage(sol[i - b[j]], j)) bad = true;
+                }
+                if (bad) continue;
+                dp[i] = dp[i - b[j]] + b[j];
+                cnt[i] = cnt[i - b[j]] + 1;
+                for (int k = 0; k < bn; k++) {
+                    sol[i][k] = sol[i - b[j]][k] + (k == j);
+                }
+            }
+        }
+    }
+}
+
+void calc(double x) {
+    int h = ceil(x);
+    cout << dp[h] << endl;
+    for (int i = 0; i < bn; i++) {
+        cout << sol[h][i] << ' ';
+    }
+    cout << endl << cnt[h] << endl;
+}
+
+double overage(int a[], int id) {
+    double ans = 0, x = 0;
+    int tot = 0;
+    if (~id) a[id] ++;
+    for (int i = 0; i < bn; i++) {
+        tot += a[i];
+        x += (double) a[i] * b[i];
+    }
+    x /= tot;
+    for (int i = 0; i < bn; i++) {
+        ans += (double) a[i] * (b[i] - x) * (b[i] - x);
+    }
+    if (~id) a[id] --;
+    return ans;
+}
