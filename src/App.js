@@ -6,8 +6,8 @@ import { ReactComponent as RightWard } from "./assets/rightward.svg";
 
 // const unitWidth = 1.1, unitHeight = 0.35;
 // const cellWidth = unitWidth * 40, cellHeight = unitHeight * 40;
-const maxHeightNum = 30;
 const maxWidthNum = 20;
+const maxHeightNum = 30;
 const color = [
   'rgb(103, 10, 89)',
   'rgb(103, 10, 10)',
@@ -233,7 +233,6 @@ function App() {
           <div className='button' onClick={() => {
             if(unitWidth === 1.0) {setUnitWidth(1.1); setCellWidth(44)}
             else {setUnitWidth(1.0); setCellWidth(40)}
-            // initialize()
             }}>{unitWidth ===1.0 ? 'TURN TO 1.1 M' : 'TURN TO 1.0 M'}</div>
           <div className={drawMode ? 'hidden' : 'input-mode'}>
             <div className='input-item'>
@@ -325,8 +324,8 @@ function App() {
             onClick={(event) => {
               if (!drawMode || displayFlag || polygon.length >= 8) return
               let currentTargetRect = event.currentTarget.getBoundingClientRect();
-              const x = (event.pageX - currentTargetRect.left) / 8.8
-              const y = (event.pageY - currentTargetRect.top) / 4.2
+              const x = (event.pageX - currentTargetRect.left) / (cellWidth*maxWidthNum/100)
+              const y = (event.pageY - currentTargetRect.top) / (cellHeight*maxHeightNum/100)
               if (pathString === '0% 0%') setPathString(`${x}% ${y}%`)
               else setPathString(pathString + `, ${x}% ${y}%`)
               setPolygon([...polygon, { x: x, y: y }])
