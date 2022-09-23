@@ -43,7 +43,7 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                         <input type="number" step={0.05} min={0} max={20} value={(Number(bottomWidth*2).toFixed(1)/2).toFixed(2)}
                             onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value) }} />
                         <p>X 1.1 =</p>
-                        <input type="number" step={0.05} min={0} max={22} value={(Number(bottomWidth * unitWidth*2).toFixed(1)/2).toFixed}
+                        <input type="number" step={0.05} min={0} max={22} value={(Number(bottomWidth * unitWidth*2).toFixed(1)/2).toFixed(2)}
                             onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value / unitWidth) }} />
                         <p>(M)</p>
                     </div>
@@ -51,10 +51,10 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                 <div className='input-item'>
                     <p>SKEW</p>
                     <div className='flex'>
-                        <input type="number" step={0.05} min={-20} max={20} value={(Number(skew*2).toFixed(1)/2).toFixed}
+                        <input type="number" step={0.05} min={-20} max={20} value={(Number(skew*2).toFixed(1)/2).toFixed(2)}
                             onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value) }} />
                         <p>X 1.1 =</p>
-                        <input type="number" step={0.05} min={-22} max={22} value={(Number(skew * unitWidth*2).toFixed(1)/2).toFixed}
+                        <input type="number" step={0.05} min={-22} max={22} value={(Number(skew * unitWidth*2).toFixed(1)/2).toFixed(2)}
                             onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value / unitWidth) }} />
                         <p>(M)</p>
                     </div>
