@@ -51,7 +51,7 @@ function MainGraph({ setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, poly
                             let height = 0;
                             return solution[Math.ceil(maxHeightNum * unitHeight * iItem - 3)]?.map((jItem, jIndex) => {  /////////////remove - 3////////////////
                                 // if(jIndex ===0 ) return <></>
-                                let tempHeight = block[jIndex] / (maxHeightNum * unitHeight);          
+                                let tempHeight = block[jIndex] / (maxHeightNum * unitHeight);
                                 return [...Array(jItem)].map((kItem, kIndex) => {
                                     height += tempHeight
                                     return (

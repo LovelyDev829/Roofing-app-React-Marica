@@ -9,7 +9,7 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
             <div className='left-bar-button' onClick={() => { setLeftBarFlag(!leftBarFlag) }}>
                 <RightWard style={leftBarFlag ? { transform: 'rotate(180deg)' } : {}} />
             </div>
-            <div className='button' onClick={() => { setDrawMode(!drawMode); initialize() }}>{drawMode ? 'GOTO INPUT MODE' : 'GOTO DRAW MODE'}</div>
+            <div className='button' onClick={() => { setDrawMode(!drawMode); initialize(); setDisplayFlag(false) }}>{drawMode ? 'GOTO INPUT MODE' : 'GOTO DRAW MODE'}</div>
             <div className='button' onClick={() => {
                 if (unitWidth === 1.0) { setUnitWidth(1.1); setCellWidth(44) }
                 else { setUnitWidth(1.0); setCellWidth(40) }
@@ -19,10 +19,10 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                     <p>HELGHT</p>
                     <div className='flex'>
                         <input type="number" step={0.05} min={0} max={30} value={(Number(height*2).toFixed(1)/2).toFixed(2)}
-                            onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value) }} />
+                            onChange={(e) => { displayCalc(); setHeight(e.target.value) }} />
                         <p>X   0.35 =</p>
                         <input type="number" step={0.05} min={0} max={10.5} value={(Number(height * unitHeight*2).toFixed(1)/2).toFixed(2)}
-                            onChange={(e) => { setDisplayFlag(false); setHeight(e.target.value / unitHeight) }} />
+                            onChange={(e) => { displayCalc(); setHeight(e.target.value / unitHeight) }} />
                         <p>(M)</p>
                     </div>
                 </div>
@@ -30,10 +30,10 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                     <p>TOP-WIDTH</p>
                     <div className='flex'>
                         <input type="number" step={0.05} min={0} max={20} value={(Number(topWidth*2).toFixed(1)/2).toFixed(2)}
-                            onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value) }} />
+                            onChange={(e) => { displayCalc(); setTopWidth(e.target.value) }} />
                         <p>X 1.1 =</p>
                         <input type="number" step={0.05} min={0} max={22} value={(Number(topWidth * unitWidth*2).toFixed(1)/2).toFixed(2)}
-                            onChange={(e) => { setDisplayFlag(false); setTopWidth(e.target.value / unitWidth) }} />
+                            onChange={(e) => { displayCalc(); setTopWidth(e.target.value / unitWidth) }} />
                         <p>(M)</p>
                     </div>
                 </div>
@@ -41,10 +41,10 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                     <p>BOTTOM-WIDTH</p>
                     <div className='flex'>
                         <input type="number" step={0.05} min={0} max={20} value={(Number(bottomWidth*2).toFixed(1)/2).toFixed(2)}
-                            onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value) }} />
+                            onChange={(e) => { displayCalc(); setBottomWidth(e.target.value) }} />
                         <p>X 1.1 =</p>
                         <input type="number" step={0.05} min={0} max={22} value={(Number(bottomWidth * unitWidth*2).toFixed(1)/2).toFixed(2)}
-                            onChange={(e) => { setDisplayFlag(false); setBottomWidth(e.target.value / unitWidth) }} />
+                            onChange={(e) => { displayCalc(); setBottomWidth(e.target.value / unitWidth) }} />
                         <p>(M)</p>
                     </div>
                 </div>
@@ -52,10 +52,10 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                     <p>SKEW</p>
                     <div className='flex'>
                         <input type="number" step={0.05} min={-20} max={20} value={(Number(skew*2).toFixed(1)/2).toFixed(2)}
-                            onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value) }} />
+                            onChange={(e) => { displayCalc(); setSkew(e.target.value) }} />
                         <p>X 1.1 =</p>
                         <input type="number" step={0.05} min={-22} max={22} value={(Number(skew * unitWidth*2).toFixed(1)/2).toFixed(2)}
-                            onChange={(e) => { setDisplayFlag(false); setSkew(e.target.value / unitWidth) }} />
+                            onChange={(e) => { displayCalc(); setSkew(e.target.value / unitWidth) }} />
                         <p>(M)</p>
                     </div>
                 </div>
@@ -73,7 +73,8 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                                             let tempPolygon = polygon
                                             tempPolygon[index].x = e.target.value * 100 / (unitWidth * maxWidthNum)
                                             setPolygon([...tempPolygon])
-                                            setDisplayFlag(false)
+                                            // setDisplayFlag(false)
+                                            displayCalc()
                                             setBottomLeft()
                                         }} />
                                     <p>Y : </p>
@@ -82,7 +83,8 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                                             let tempPolygon = polygon
                                             tempPolygon[index].y = 100 - (e.target.value * 100 / (unitHeight * maxHeightNum))
                                             setPolygon([...tempPolygon])
-                                            setDisplayFlag(false)
+                                            // setDisplayFlag(false)
+                                            displayCalc()
                                             setBottomLeft()
                                         }} />
                                     <p>(M)</p>
@@ -94,7 +96,7 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
             </div>
             <div className='flex'>
                 <div className='button' onClick={() => { initialize(); }}>RESET</div>
-                <div className='button' onClick={() => { displayCalc(); setDisplayFlag(true) }}>ROOF</div>
+                <div className='button' onClick={() => { displayCalc(); setDisplayFlag(!displayFlag) }}>{displayFlag ? 'CLEAR':'ROOF'}</div>
             </div>
             <div className={displayFlag ? 'button' : 'button-disabled'}
                 onClick={() => { if(displayFlag) setPdfMode(!pdfMode) }}>GENERATE PDF</div>

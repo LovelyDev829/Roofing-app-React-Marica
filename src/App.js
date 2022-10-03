@@ -139,7 +139,6 @@ function App() {
     }
     setSolution(sol)
   }
-
   function calcCrossPointY(p1, p2, px) {
     return (p1.y - p2.y) * (px - p1.x) / (p1.x - p2.x) + p1.y
   }
@@ -202,7 +201,7 @@ function App() {
     setBottomWidth(16)
     setTopWidth(10)
     setSkew(0)
-    setDisplayFlag(false)
+    // setDisplayFlag(false)
     setColumnTopPoint([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setColumnBottomPoint([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setColumnHeight([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
