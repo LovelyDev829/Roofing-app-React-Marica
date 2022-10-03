@@ -1,8 +1,8 @@
 import React from 'react'
 
-function MainGraph({setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, polygon, setPolygon, maxWidthNum, maxHeightNum, color,
+function MainGraph({ setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, polygon, setPolygon, maxWidthNum, maxHeightNum, color,
     rightBarFlag, block, solution, columnHeight, cellWidth, cellHeight, displayFlag, columnBottomPoint, setGlobalCoords,
-    setElementColumn, setElementName, setElementNameBack, pathString, setPathString, GridLines}) {
+    setElementColumn, setElementName, setElementNameBack, pathString, setPathString, GridLines }) {
     return (
         <div className='middle' onClick={() => { if (rightBarFlag) { setRightBarFlag(false); setLeftBarFlag(true) } }}>
             <div className={rightBarFlag ? 'draw-area move-left' : 'draw-area'} style={{
@@ -25,21 +25,23 @@ function MainGraph({setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, polyg
                 ></GridLines>
                 <div className={'polygon'} style={!drawMode ? {
                     clipPath: `polygon(
-                ${polygon[0]?.x}% ${polygon[0]?.y}%,
-                ${polygon[1]?.x}% ${polygon[1]?.y}%,
-                ${polygon[2]?.x}% ${polygon[2]?.y}%,
-                ${polygon[3]?.x}% ${polygon[3]?.y}%
-              )`} : (pathString ? { clipPath: `polygon(${pathString})` } : { clipPath: `polygon(0% 0%)` })}></div>
+                        ${polygon[0]?.x}% ${polygon[0]?.y}%,
+                        ${polygon[1]?.x}% ${polygon[1]?.y}%,
+                        ${polygon[2]?.x}% ${polygon[2]?.y}%,
+                        ${polygon[3]?.x}% ${polygon[3]?.y}%
+                    )`} : (pathString ? { clipPath: `polygon(${pathString})` } : { clipPath: `polygon(0% 0%)` })}>
+                </div>
                 {
                     polygon?.map((item, index) => {
                         return (
                             <div className={'polygon back-red'} style={(drawMode && !displayFlag) ? {
                                 clipPath: `polygon(
-                    ${item?.x - 0.25}% ${item?.y - 0.5}%,
-                    ${item?.x - 0.25}% ${item?.y + 0.5}%,
-                    ${item?.x + 0.25}% ${item?.y + 0.5}%,
-                    ${item?.x + 0.25}% ${item?.y - 0.5}%
-                  )` } : { clipPath: `polygon(0% 0%)` }} key={"polygon-point" + index}></div>
+                                    ${item?.x - 0.25}% ${item?.y - 0.5}%,
+                                    ${item?.x - 0.25}% ${item?.y + 0.5}%,
+                                    ${item?.x + 0.25}% ${item?.y + 0.5}%,
+                                    ${item?.x + 0.25}% ${item?.y - 0.5}%
+                                )` } : { clipPath: `polygon(0% 0%)` }} key={"polygon-point" + index}>
+                            </div>
                         )
                     })
                 }
@@ -47,9 +49,9 @@ function MainGraph({setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, polyg
                     {
                         columnHeight?.map((iItem, iIndex) => {
                             let height = 0;
-                            return solution[Math.ceil(maxHeightNum * unitHeight * iItem)]?.map((jItem, jIndex) => {
+                            return solution[Math.ceil(maxHeightNum * unitHeight * iItem - 3)]?.map((jItem, jIndex) => {  /////////////remove - 3////////////////
                                 // if(jIndex ===0 ) return <></>
-                                let tempHeight = block[jIndex] / (maxHeightNum * unitHeight);          /////////////////////////////
+                                let tempHeight = block[jIndex] / (maxHeightNum * unitHeight);          
                                 return [...Array(jItem)].map((kItem, kIndex) => {
                                     height += tempHeight
                                     return (
@@ -57,11 +59,11 @@ function MainGraph({setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, polyg
                                             <div className={displayFlag ? 'polygon-flag-item' : 'hidden'} style={{
                                                 backgroundColor: `${color[jIndex]}`,
                                                 clipPath: `polygon(
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% 
-                          )`}}
+                                                    ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
+                                                    ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
+                                                    ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
+                                                    ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% 
+                                                )`}}
                                                 onClick={() => {
                                                     setRightBarFlag(true)
                                                     setLeftBarFlag(false)
@@ -85,18 +87,19 @@ function MainGraph({setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, polyg
                                             <div className={displayFlag ? 'polygon-flag-item back-border' : 'hidden'} style={{
                                                 backgroundColor: `${color[jIndex]}`,
                                                 clipPath: `polygon(
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
-                            ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
-                            
-                            ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}%,
-                            ${(iIndex + 0) * 5 + 0.0625}% ${columnBottomPoint[iIndex] - (height)}%,
-                            ${(iIndex + 0) * 5 + 0.0625}% ${columnBottomPoint[iIndex] - (height - tempHeight) - 0.125}% ,
-                            ${(iIndex + 1) * 5 - 0.0625}% ${columnBottomPoint[iIndex] - (height - tempHeight) - 0.125}% ,
-                            ${(iIndex + 1) * 5 - 0.0625}% ${columnBottomPoint[iIndex] - (height) + 0.125}% ,
-                            ${(iIndex + 0) * 5 + 0.0625}% ${columnBottomPoint[iIndex] - (height) + 0.125}%
-                          )`}}></div>
+                                                    ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
+                                                    ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height)}% ,
+                                                    ${(iIndex + 1) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
+                                                    ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height - tempHeight)}% ,
+                                                    
+                                                    ${(iIndex + 0) * 5}% ${columnBottomPoint[iIndex] - (height)}%,
+                                                    ${(iIndex + 0) * 5 + 0.0625}% ${columnBottomPoint[iIndex] - (height)}%,
+                                                    ${(iIndex + 0) * 5 + 0.0625}% ${columnBottomPoint[iIndex] - (height - tempHeight) - 0.125}% ,
+                                                    ${(iIndex + 1) * 5 - 0.0625}% ${columnBottomPoint[iIndex] - (height - tempHeight) - 0.125}% ,
+                                                    ${(iIndex + 1) * 5 - 0.0625}% ${columnBottomPoint[iIndex] - (height) + 0.125}% ,
+                                                    ${(iIndex + 0) * 5 + 0.0625}% ${columnBottomPoint[iIndex] - (height) + 0.125}%
+                                                )`}}>
+                                            </div>
                                         </div>
                                     )
                                 })

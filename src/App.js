@@ -27,7 +27,7 @@ const color = [
   'rgb(61, 56, 135)'
 ]
 const N = 1e5;
-const block = [35, 70, 105, 140, 175, 210, 245, 280, 315, 350, 385]
+const block = [35, 70, 105, 140, 175, 210, 245, 280, 315, 350, 385, 420, 455, 490, 525]
 const overlay = 0;
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
   const [columnTopPoint, setColumnTopPoint] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   const [columnBottomPoint, setColumnBottomPoint] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   const [columnHeight, setColumnHeight] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-  var total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   useEffect(() => {
     if (!drawMode) {
@@ -90,7 +90,7 @@ function App() {
     var cnt = [];
 
     for (let i = 0; i < N; i++) {
-      sol.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+      sol.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
       dp.push(N)
       cnt.push(N)
     }
@@ -193,10 +193,6 @@ function App() {
         tempArray = columnTopPoint; tempArray[i] = maxx; setColumnTopPoint(tempArray)
         tempArray = columnHeight; tempArray[i] = 0; setColumnHeight(tempArray)
       }
-      // calcOpitization(10.5 * columnHeight[i])
-      // if (i === maxWidthNum - 1) {
-      //   console.log(columnHeight)
-      // }
     }
   }
   function initialize() {
