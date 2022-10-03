@@ -2,7 +2,7 @@ import React from 'react'
 
 function MainGraph({ setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, polygon, setPolygon, maxWidthNum, maxHeightNum, color,
     rightBarFlag, block, solution, columnHeight, cellWidth, cellHeight, displayFlag, columnBottomPoint, setGlobalCoords,
-    setElementColumn, setElementName, setElementNameBack, pathString, setPathString, GridLines }) {
+    setElementColumn, setElementName, setElementNameBack, pathString, setPathString, GridLines, setElementId }) {
     return (
         <div className='middle' onClick={() => { if (rightBarFlag) { setRightBarFlag(false); setLeftBarFlag(true) } }}>
             <div className={rightBarFlag ? 'draw-area move-left' : 'draw-area'} style={{
@@ -71,6 +71,7 @@ function MainGraph({ setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, poly
                                                 onMouseOver={() => {
                                                     setElementName(`M${jIndex + 1}`)
                                                     setElementColumn(iIndex)
+                                                    setElementId(jIndex)
                                                     setElementNameBack(color[jIndex])
                                                 }}
                                                 onMouseLeave={() => {

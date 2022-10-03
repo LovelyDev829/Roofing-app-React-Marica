@@ -45,6 +45,7 @@ function App() {
   const [solution, setSolution] = useState([])
   const [elementName, setElementName] = useState('')
   const [elementNameBack, setElementNameBack] = useState('')
+  const [elementId, setElementId] = useState(-1)
   const [displayFlag, setDisplayFlag] = useState(false)
   const [leftBarFlag, setLeftBarFlag] = useState(true)
   const [rightBarFlag, setRightBarFlag] = useState(false)
@@ -212,7 +213,7 @@ function App() {
         backgroundColor: elementNameBack,
         top: globalCoords.y - 80,
         left: globalCoords.x + 20,
-      }}>{elementName}</div>
+      }}>{elementName} ({block[elementId]/100}m)</div>
       <div className='header' onClick={() => { setRightBarFlag(false); setLeftBarFlag(true) }} >
         <p>Marica H.</p>
         <p>ROOFING TOOL</p>
@@ -234,7 +235,7 @@ function App() {
               rightBarFlag={rightBarFlag} block={block} solution={solution} columnHeight={columnHeight} cellWidth={cellWidth}
               cellHeight={cellHeight} displayFlag={displayFlag} columnBottomPoint={columnBottomPoint} setGlobalCoords={setGlobalCoords}
               setElementColumn={setElementColumn} setElementName={setElementName} setElementNameBack={setElementNameBack}
-              pathString={pathString} setPathString={setPathString} GridLines={GridLines} />
+              pathString={pathString} setPathString={setPathString} GridLines={GridLines} setElementId={setElementId}/>
         }
         <RightBar rightBarFlag={rightBarFlag} setRightBarFlag={setRightBarFlag} RightWard={RightWard} block={block} solution={solution}
           columnHeight={columnHeight} total={total} elementColumn={elementColumn} elementNameBack={elementNameBack} />
