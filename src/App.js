@@ -7,6 +7,7 @@ import RightBar from './components/RightBar';
 import MainGraph from './components/MainGraph';
 import MainPDF from './components/MainPDF';
 
+
 const maxWidthNum = 20;
 const maxHeightNum = 30;
 const color = [
@@ -207,6 +208,9 @@ function App() {
     setColumnBottomPoint([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setColumnHeight([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   }
+
+
+
   return (
     <div className="App">
       <div className={elementName === '' ? 'hidden' : 'element-name'} style={{
@@ -226,19 +230,31 @@ function App() {
           setTopWidth={setTopWidth} bottomWidth={bottomWidth} setBottomWidth={setBottomWidth} skew={skew} setSkew={setSkew}
           polygon={polygon} setPolygon={setPolygon} setBottomLeft={setBottomLeft} maxWidthNum={maxWidthNum} maxHeightNum={maxHeightNum}
           displayCalc={displayCalc} pdfMode={pdfMode} setPdfMode={setPdfMode} displayFlag={displayFlag} />
-        {
-          pdfMode ?
+
+
+
+
+         <div className='custom-chart' id ="docs">
+        {/* { */}
+          {/* pdfMode ? */}
             <MainPDF />
-            :
+            {/* : */}
             <MainGraph setLeftBarFlag={setLeftBarFlag} setRightBarFlag={setRightBarFlag} drawMode={drawMode} unitHeight={unitHeight}
               polygon={polygon} setPolygon={setPolygon} maxWidthNum={maxWidthNum} maxHeightNum={maxHeightNum} color={color}
               rightBarFlag={rightBarFlag} block={block} solution={solution} columnHeight={columnHeight} cellWidth={cellWidth}
               cellHeight={cellHeight} displayFlag={displayFlag} columnBottomPoint={columnBottomPoint} setGlobalCoords={setGlobalCoords}
               setElementColumn={setElementColumn} setElementName={setElementName} setElementNameBack={setElementNameBack}
               pathString={pathString} setPathString={setPathString} GridLines={GridLines} setElementId={setElementId}/>
-        }
+        {/* } */}
+        </div>
+
+
+        <div id ="tables">
         <RightBar rightBarFlag={rightBarFlag} setRightBarFlag={setRightBarFlag} RightWard={RightWard} block={block} solution={solution}
           columnHeight={columnHeight} total={total} elementColumn={elementColumn} elementNameBack={elementNameBack} />
+        </div>
+
+          
       </div>
     </div>
   );
