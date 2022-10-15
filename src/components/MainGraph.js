@@ -5,6 +5,7 @@ function MainGraph({ setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, poly
     setElementColumn, setElementName, setElementNameBack, pathString, setPathString, GridLines, setElementId }) {
     return (
         <div className='middle' onClick={() => { if (rightBarFlag) { setRightBarFlag(false); setLeftBarFlag(true) } }}>
+
             <div className={rightBarFlag ? 'draw-area move-left' : 'draw-area'} style={{
                 width: `${cellWidth * maxWidthNum}px`, height: `${cellHeight * maxHeightNum}px`,
             }}
@@ -109,6 +110,7 @@ function MainGraph({ setLeftBarFlag, setRightBarFlag, drawMode, unitHeight, poly
                     }
                 </div>
             </div>
+
         </div>
     )
 }

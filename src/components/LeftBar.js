@@ -1,5 +1,35 @@
 import React from 'react'
 import { ReactComponent as RightWard } from "../assets/rightward.svg";
+import jsPDF from "jspdf"
+
+import * as htmlToImage from 'html-to-image';
+
+// generate pdf function
+function generatePDF() {
+
+    const pdf = new jsPDF("p","pt","a4")
+
+        var docs = document.getElementById("docs")
+        var table = document.getElementById("tables")
+
+        var dataUrl = htmlToImage.toPng(docs)
+
+        var img
+        
+        pdf.html(table,{
+            callback: function(pdf){
+                    dataUrl.then(value => {
+                        img = value
+                        pdf.setFontSize(20);
+                        pdf.addPage()
+                        pdf.addImage(img,'PNG', 15, 15, 825, 450)
+                        pdf.save("Roof.pdf")
+            })
+            }
+        })
+}
+
+
 
 function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDrawMode, initialize, unitWidth, setUnitWidth,
     unitHeight, setCellWidth, setDisplayFlag, height, setHeight, topWidth, setTopWidth, bottomWidth, setBottomWidth, displayFlag,
@@ -98,8 +128,13 @@ function LeftBar({ leftBarFlag, setLeftBarFlag, setRightBarFlag, drawMode, setDr
                 <div className='button' onClick={() => { initialize(); }}>RESET</div>
                 <div className='button' onClick={() => { displayCalc(); setDisplayFlag(!displayFlag) }}>{displayFlag ? 'CLEAR':'ROOF'}</div>
             </div>
-            <div className={displayFlag ? 'button' : 'button-disabled'}
-                onClick={() => { if(displayFlag) setPdfMode(!pdfMode) }}>GENERATE PDF</div>
+            {/* <div className={displayFlag ? 'button' : 'button-disabled'}
+                onClick={() => { if(displayFlag) setPdfMode(!pdfMode) } }>GENERATE PDF</div> */}
+
+        <button onClick={generatePDF} type="primary">Generate PDF</button>
+
+
+
         </div>
     )
 }
